@@ -8,3 +8,109 @@ body {
   max-width: 48rem;
   margin: 0 auto;
 }
+/* Farben und Schriftarten */
+:root {
+  --primary-color: #469a1f; /* Grünes Hauptfarbschema */
+  --secondary-color: #f3f4f6; /* Heller Hintergrund */
+  --text-color: #333333; /* Dunkler Text */
+  --hover-color: #367a18; /* Dunkleres Grün für Hover */
+  --border-color: #e5e7eb; /* Leichte Rahmenfarbe */
+  --background-color: #ffffff; /* Weißer Hintergrund */
+  --font-family: 'Arial', sans-serif; /* Ähnliche Schriftart */
+}
+
+body {
+  font-family: var(--font-family);
+  color: var(--text-color);
+  background-color: var(--secondary-color);
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  color: var(--primary-color);
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.filter-input {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  width: 100%;
+  max-width: 20rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.375rem;
+  font-size: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--background-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  text-align: left;
+}
+
+th {
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+th:hover {
+  background-color: var(--hover-color);
+}
+
+tr:nth-child(even) {
+  background-color: var(--secondary-color);
+}
+
+tr:hover {
+  background-color: var(--hover-color);
+  color: white;
+}
+
+.sort-indicator {
+  margin-left: 0.5rem;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  color: var(--hover-color);
+  text-decoration: underline;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--hover-color);
+}
