@@ -6,10 +6,11 @@
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "gh-pages -d dist"
-
   },
   "dependencies": {
-    "vue": "^3.4.15"
+    "pinia": "^3.0.3",
+    "vue": "^3.4.15",
+    "vue-router": "^4.5.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",

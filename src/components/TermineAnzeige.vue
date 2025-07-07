@@ -1,16 +1,18 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
+import { useTermineStore } from '../stores/termineStore';
 
 interface Termin {
   id: number;
   datum: string;
-  uhrzeit?: string; // Optional, falls Uhrzeit benötigt wird
-  wahlkreis: Wahlkreis;
+  uhrzeit?: string;
   bezeichnung: string;
   ort: string;
+  wahlkreis: Wahlkreis;
   nuudelLink?: string;
 }
+
 enum Wahlkreis {
   W0= 'übergreifend',
   W1 = 'Innenstadt 1 - Altstadt - Süd',
@@ -25,20 +27,11 @@ enum Wahlkreis {
 export default defineComponent({
   name: 'TermineAnzeige',
   setup() {
-    const termine = ref<Termin[]>([
-      { id: 6, datum: '2025-07-20', uhrzeit: '16:00', bezeichnung: 'Wahlkampf-Kickoff', ort: 'Aachener Weiher', wahlkreis: Wahlkreis.W0, nuudelLink: 'https://nuudel.digitalcourage.de/wWjBwUaosWuJltSh'},
-  
-    { id: 1, datum: '2025-08-01', bezeichnung: 'Plakatieren', ort: 'wird noch bekannt gegeben', wahlkreis: Wahlkreis.W1 },
-      { id: 10, datum: '2025-08-01', bezeichnung: 'Plakatieren', ort: 'wird noch bekannt gegeben', wahlkreis: Wahlkreis.W2 },
-      { id: 11, datum: '2025-08-01', bezeichnung: 'Plakatieren', ort: 'wird noch bekannt gegeben', wahlkreis: Wahlkreis.W3 , nuudelLink: 'https://nuudel.digitalcourage.de/wWjBwUaosWuJltSh'},
-      { id: 12, datum: '2025-08-01', bezeichnung: 'Plakatieren', ort: 'wird noch bekannt gegeben', wahlkreis: Wahlkreis.W4 },
-      { id: 13, datum: '2025-08-01', bezeichnung: 'Plakatieren', ort: 'KGS (Ebertplatz 23)', wahlkreis: Wahlkreis.W5 },
-      { id: 14, datum: '2025-08-01', bezeichnung: 'Plakatieren', ort: 'wird noch bekannt gegeben', wahlkreis: Wahlkreis.W6 },
-      { id: 15, datum: '2025-08-02', uhrzeit: '11:00',bezeichnung: 'Wahlkampfstand', ort: 'Chlodwigplatz', wahlkreis: Wahlkreis.W2, nuudelLink: 'https://nuudel.digitalcourage.de/wWjBwUaosWuJltSh'},
-      { id: 16, datum: '2025-08-02', bezeichnung: 'Wahlkampfstand', ort: 'Eigelstein', wahlkreis: Wahlkreis.W5 , nuudelLink: 'https://nuudel.digitalcourage.de/wWjBwUaosWuJltSh'},
-      { id: 20, datum: '2025-08-02', bezeichnung: 'Wahlkampfstand', ort: 'Eigelstein', wahlkreis: Wahlkreis.W5 , nuudelLink: 'https://nuudel.digitalcourage.de/wWjBwUaosWuJltSh'},
 
-    ]);
+    const termineStore = useTermineStore();
+
+
+    const termine = termineStore.getTermine;
 
     const sortKey = ref<keyof Termin>('datum');
     const sortAsc = ref(true);
@@ -47,7 +40,7 @@ export default defineComponent({
 
 
     const gefilterteUndSortierteTermine = computed(() => {
-      return termine.value
+      return termine
         .filter(t => t.bezeichnung.toLowerCase().includes(filterText.value.toLowerCase()))
         .filter(t => !selectedWahlkreis.value || t.wahlkreis === selectedWahlkreis.value)
         .sort((a, b) => {
