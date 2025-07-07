@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
   plugins: [vue()],
-  base: '/termine-anzeige-vue-3-projekt/',
+  base: '/wahlkampfterminverwaltung/',
   server: {
     open: true,
     port: 3000,
