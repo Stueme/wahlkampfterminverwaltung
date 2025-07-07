@@ -1,22 +1,14 @@
 
-body {
-  font-family: sans-serif;
-  background-color: #f9fafb;
-}
-.container {
-  padding: 1.5rem;
-  max-width: 48rem;
-  margin: 0 auto;
-}
 /* Farben und Schriftarten */
 :root {
-  --primary-color: #469a1f; /* Grünes Hauptfarbschema */
-  --secondary-color: #f3f4f6; /* Heller Hintergrund */
+  --primary-color: #db3987; /* Grünes Hauptfarbschema */
+  --secondary-color: #9ed0a4; /* Heller Hintergrund */
   --text-color: #333333; /* Dunkler Text */
   --hover-color: #367a18; /* Dunkleres Grün für Hover */
   --border-color: #e5e7eb; /* Leichte Rahmenfarbe */
-  --background-color: #ffffff; /* Weißer Hintergrund */
+  --background-color: white; /* Weißer Hintergrund */
   --font-family: 'Arial', sans-serif; /* Ähnliche Schriftart */
+  --color: white; /* Dunkle Schriftfarbe */
 }
 
 body {
@@ -29,7 +21,7 @@ body {
 
 h1 {
   color: var(--primary-color);
-  font-size: 2rem;
+  font-size: 4rem;
   font-weight: bold;
   text-align: center;
   margin-bottom: 1.5rem;
@@ -113,4 +105,56 @@ button {
 
 button:hover {
   background-color: var(--hover-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .filter-input {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  table {
+    font-size: 0.9rem;
+  }
+
+  th, td {
+    padding: 0.5rem;
+  }
+
+  th {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.2rem;
+  }
+
+  .filter-input {
+    font-size: 0.9rem;
+    padding: 0.4rem;
+  }
+
+  table {
+    font-size: 0.8rem;
+  }
+
+  th, td {
+    padding: 0.4rem;
+  }
+
+  th {
+    font-size: 0.8rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
 }
