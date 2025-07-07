@@ -1,10 +1,14 @@
 
 <template>
   <div class="container">
-    <TermineAnzeige />
+   <router-view />
+   
   </div>
 </template>
 
-<script setup lang="ts">
-import TermineAnzeige from './components/TermineAnzeige.vue'
+
+<script lang="ts">
+export default {
+  name: 'App',
+};
 </script>

@@ -17,6 +17,6 @@ export default defineComponent({
 <template>
     <div>
       <h1 class="text-2xl font-bold mb-4">Exportierte Termine</h1>
-      <!-- <pre>{{ JSON.stringify(termine, null, 2) }}</pre> -->
+       <pre>{{ JSON.stringify(termine, null, 2) }}</pre> 
     </div>
   </template>
