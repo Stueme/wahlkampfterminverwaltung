@@ -36,6 +36,8 @@ export default defineComponent({
       { id: 14, datum: '2025-08-01', bezeichnung: 'Plakatieren', ort: 'wird noch bekannt gegeben', wahlkreis: Wahlkreis.W6 },
       { id: 15, datum: '2025-08-02', uhrzeit: '11:00',bezeichnung: 'Wahlkampfstand', ort: 'Chlodwigplatz', wahlkreis: Wahlkreis.W2, nuudelLink: 'https://nuudel.digitalcourage.de/wWjBwUaosWuJltSh'},
       { id: 16, datum: '2025-08-02', bezeichnung: 'Wahlkampfstand', ort: 'Eigelstein', wahlkreis: Wahlkreis.W5 , nuudelLink: 'https://nuudel.digitalcourage.de/wWjBwUaosWuJltSh'},
+      { id: 20, datum: '2025-08-02', bezeichnung: 'Wahlkampfstand', ort: 'Eigelstein', wahlkreis: Wahlkreis.W5 , nuudelLink: 'https://nuudel.digitalcourage.de/wWjBwUaosWuJltSh'},
+
     ]);
 
     const sortKey = ref<keyof Termin>('datum');
