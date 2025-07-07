@@ -2,9 +2,9 @@
 /* Farben und Schriftarten */
 :root {
   --primary-color: #db3987; /* Grünes Hauptfarbschema */
-  --secondary-color: #9ed0a4; /* Heller Hintergrund */
+  --secondary-color: #367a18; /* Heller Hintergrund */
   --text-color: #333333; /* Dunkler Text */
-  --hover-color: #367a18; /* Dunkleres Grün für Hover */
+  --hover-color: #9ed0a4; /* Dunkleres Grün für Hover */
   --border-color: #e5e7eb; /* Leichte Rahmenfarbe */
   --background-color: white; /* Weißer Hintergrund */
   --font-family: 'Arial', sans-serif; /* Ähnliche Schriftart */

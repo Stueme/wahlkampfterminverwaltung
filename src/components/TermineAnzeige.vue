@@ -97,7 +97,7 @@ export default defineComponent({
 
     <!-- Dropdown für Wahlkreis -->
     <div class="filter-container mb-4">
-      <label for="wahlkreis" class="block text-lg font-medium mb-2">Wahlkreis auswählen:</label>
+      <label for="wahlkreis" class="block text-lg font-medium mb-2">Wahlkreis filtern:</label>
       <select v-model="selectedWahlkreis" id="wahlkreis" class="filter-input">
         <option :value="null">Alle Wahlkreise</option>
         <option v-for="(value, key) in Wahlkreis" :key="key" :value="value">
