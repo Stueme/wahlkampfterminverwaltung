@@ -118,7 +118,7 @@ export default defineComponent({
             <span class="sort-indicator">{{ sortKey === 'wahlkreis' ? (sortAsc ? '▲' : '▼') : '' }}</span>
           </th>
           <th @click="sortBy('bezeichnung')">
-            Bezeichnung
+            Beschreibung
             <span class="sort-indicator">{{ sortKey === 'bezeichnung' ? (sortAsc ? '▲' : '▼') : '' }}</span>
           </th>
           <th @click="sortBy('ort')">
