@@ -2,6 +2,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 import { useTermineStore } from '../stores/termineStore';
+import { useRouter } from 'vue-router';
 
 interface Termin {
   id: number;
@@ -29,6 +30,7 @@ export default defineComponent({
   setup() {
 
     const termineStore = useTermineStore();
+    const router = useRouter(); // Router-Instanz verwenden
 
 
     const termine = termineStore.getTermine;
@@ -76,6 +78,10 @@ export default defineComponent({
       });
     }
 
+    function navigateToExport() {
+      router.push('/export'); // Navigiere zur Export-Seite
+    }
+
     return {
       termine,
       sortKey,
@@ -86,6 +92,7 @@ export default defineComponent({
       formatDatum,
       Wahlkreis,
       selectedWahlkreis,
+      navigateToExport,
     };
   },
 });
@@ -143,5 +150,8 @@ export default defineComponent({
         </tr>
       </tbody>
     </table>
+    <div class="mt-4">
+      <button @click="navigateToExport" class="btn-primary">Termine exportieren</button>
+    </div>
   </div>
 </template>
