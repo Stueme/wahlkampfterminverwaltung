@@ -87,6 +87,14 @@ export default defineComponent({
       }
     }
 
+    function deleteTermin(id: number) {
+      const index = termine.findIndex((termin) => termin.id === id);
+      if (index !== -1) {
+        termine.splice(index, 1); // Termin aus der Liste entfernen
+       // alert('Termin wurde gelöscht.');
+      }
+    }
+
 
     return {
       termine,
@@ -102,6 +110,7 @@ export default defineComponent({
       isAuthenticated,
       password,
       checkPassword,
+      deleteTermin
     };
   },
 });
@@ -135,6 +144,7 @@ export default defineComponent({
       <table>
         <thead>
           <tr>
+            <th>Aktion</th>
             <th @click="sortBy('datum')">
               Datum
               <span class="sort-indicator">{{ sortKey === 'datum' ? (sortAsc ? '▲' : '▼') : '' }}</span>
@@ -156,6 +166,9 @@ export default defineComponent({
         </thead>
         <tbody>
           <tr v-for="termin in gefilterteUndSortierteTermine" :key="termin.id">
+            <td>
+              <button @click="deleteTermin(termin.id)" class="btn-danger">Löschen</button>
+            </td>
             <td>{{ formatDatum(termin.datum) }}</td>
             <td>{{ termin.wahlkreis }}</td>
             <td>{{ termin.bezeichnung }}</td>
