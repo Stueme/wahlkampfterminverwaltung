@@ -88,11 +88,7 @@ export default defineComponent({
     }
 
     function deleteTermin(id: number) {
-      const index = termine.findIndex((termin) => termin.id === id);
-      if (index !== -1) {
-        termine.splice(index, 1); // Termin aus der Liste entfernen
-       // alert('Termin wurde gelöscht.');
-      }
+      termineStore.deleteTerminById(id);
     }
 
 

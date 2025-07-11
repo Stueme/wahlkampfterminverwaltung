@@ -1,6 +1,6 @@
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref, computed, onMounted } from 'vue';
 import { useTermineStore } from '../stores/termineStore';
 import { useRouter } from 'vue-router';
 
@@ -30,6 +30,10 @@ export default defineComponent({
   setup() {
 
     const termineStore = useTermineStore();
+        // Lade die initialen Termine beim Mounten der Komponente
+        onMounted(() => {
+      termineStore.loadInitialTermine();
+    });
     const router = useRouter(); // Router-Instanz verwenden
 
     const termine = termineStore.getTermine;
