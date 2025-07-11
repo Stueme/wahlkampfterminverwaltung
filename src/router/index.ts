@@ -10,7 +10,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory('/wahlkampfterminverwaltung'), // Basis-Pfad für das Deployment
+  history: createWebHistory('/'), // Basis-Pfad für das Deployment
   routes,
 });
 
