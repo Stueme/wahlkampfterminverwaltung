@@ -32,7 +32,6 @@ export default defineComponent({
     const termineStore = useTermineStore();
     const router = useRouter(); // Router-Instanz verwenden
 
-
     const termine = termineStore.getTermine;
 
     const sortKey = ref<keyof Termin>('datum');
@@ -78,8 +77,8 @@ export default defineComponent({
       });
     }
 
-    function navigateToExport() {
-      router.push('/export'); // Navigiere zur Export-Seite
+    function navigateToAdmin() {
+      router.push('/admin'); // Navigiere zur Export-Seite
     }
 
     return {
@@ -92,7 +91,8 @@ export default defineComponent({
       formatDatum,
       Wahlkreis,
       selectedWahlkreis,
-      navigateToExport,
+      navigateToAdmin
+      ,
     };
   },
 });
@@ -151,7 +151,7 @@ export default defineComponent({
       </tbody>
     </table>
     <div class="mt-4">
-      <button @click="navigateToExport" class="btn-primary">Termine exportieren</button>
+      <button @click="navigateToAdmin" class="btn-primary">Admin</button>
     </div>
   </div>
 </template>
