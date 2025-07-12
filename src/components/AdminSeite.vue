@@ -19,7 +19,21 @@ export default defineComponent({
     const sortKey = ref<keyof Termin>('datum');
     const sortAsc = ref(true);
     const filterText = ref('');
-    const selectedWahlkreis = ref<Wahlkreis | null>(null);
+
+
+    // Dialog-Status
+    const showDialog = ref(false);
+
+    // Neuer Termin
+    const neuerTermin = ref<Termin>({
+      id: Date.now(), // Temporäre ID
+      datum: '',
+      uhrzeit: '',
+      bezeichnung: '',
+      ort: '',
+      wahlkreis: Wahlkreis.W0,
+      nuudelLink: '',
+    });
 
     const isAuthenticated = ref(false); // Authentifizierungsstatus
     const password = ref(''); // Passwort-Eingabe
@@ -28,7 +42,6 @@ export default defineComponent({
     const gefilterteUndSortierteTermine = computed(() => {
       return termine
         .filter(t => t.bezeichnung.toLowerCase().includes(filterText.value.toLowerCase()))
-        .filter(t => !selectedWahlkreis.value || t.wahlkreis === selectedWahlkreis.value)
         .sort((a, b) => {
           let valA = a[sortKey.value];
           let valB = b[sortKey.value];
@@ -72,6 +85,21 @@ export default defineComponent({
     function deleteTermin(id: number) {
       termineStore.deleteTerminById(id);
     }
+    function speichern() {
+      if (!neuerTermin.value.datum || !neuerTermin.value.bezeichnung || !neuerTermin.value.ort) {
+        alert('Bitte alle Pflichtfelder ausfüllen!');
+        return;
+      }
+
+      termineStore.termine.push({ ...neuerTermin.value }); // Termin speichern
+      termineStore.saveTermineToLocalStorage(); // Änderungen speichern
+      alert('Termin wurde erfolgreich angelegt!');
+      showDialog.value = false; // Dialog schließen
+    }
+
+    function abbrechen() {
+      showDialog.value = false; // Dialog schließen
+    }
 
 
     return {
@@ -83,12 +111,14 @@ export default defineComponent({
       sortBy,
       formatDatum,
       Wahlkreis,
-      selectedWahlkreis,
-
       isAuthenticated,
       password,
       checkPassword,
-      deleteTermin
+      deleteTermin,
+      speichern,
+      showDialog,
+      neuerTermin,
+      abbrechen,
     };
   },
 });
@@ -99,7 +129,8 @@ export default defineComponent({
     <!-- Passwortabfrage -->
     <div v-if="!isAuthenticated" class="password-container">
       <h1 class="text-2xl font-bold mb-4">Admin-Bereich</h1>
-      <p>Bitte gebe das Admin-Passwort ein. Wenn du das nicht kennst frage den Wahlkampfmanager, die Veedelspat*innen oder den Vorstand, um Termine zu aktualiseren.:</p>
+      <p>Bitte gebe das Admin-Passwort ein. Wenn du das nicht kennst frage den Wahlkampfmanager, die Veedelspat*innen
+        oder den Vorstand, um Termine zu aktualiseren.:</p>
       <input v-model="password" type="password" placeholder="Passwort eingeben" class="filter-input mb-4" />
       <button @click="checkPassword" class="btn-primary">Anmelden</button>
     </div>
@@ -108,16 +139,53 @@ export default defineComponent({
     <div v-else>
       <h1>Termin Pflege</h1>
 
-      <!-- Dropdown für Wahlkreis -->
-      <div class="filter-container mb-4">
-        <label for="wahlkreis" class="block text-lg font-medium mb-2">Wahlkreis filtern:</label>
-        <select v-model="selectedWahlkreis" id="wahlkreis" class="filter-input">
-          <option :value="null">Alle Wahlkreise</option>
-          <option v-for="(value, key) in Wahlkreis" :key="key" :value="value">
-            {{ value }}
-          </option>
-        </select>
+      <!-- Button "Neuen Termin anlegen" -->
+      <button @click="showDialog = true" class="btn-primary mb-4">Neuen Termin anlegen</button>
+
+      <!-- Dialog für neuen Termin -->
+      <div v-if="showDialog" class="dialog-overlay">
+        <div class="dialog">
+          <h2 class="text-xl font-bold mb-4">Neuen Termin anlegen</h2>
+          <form class="grid-form">
+            <div class="form-group">
+              <label for="datum" class="block text-sm font-medium mb-1">Datum:</label>
+              <input v-model="neuerTermin.datum" type="date" id="datum" class="filter-input" />
+            </div>
+            <div class="form-group">
+              <label for="uhrzeit" class="block text-sm font-medium mb-1">Uhrzeit:</label>
+              <input v-model="neuerTermin.uhrzeit" type="time" id="uhrzeit" class="filter-input" />
+            </div>
+
+            <div class="form-group">
+              <label for="wahlkreis" class="block text-sm font-medium mb-1">Wahlkreis:</label>
+              <select v-model="neuerTermin.wahlkreis" id="wahlkreis" class="filter-input">
+                <option v-for="(value, key) in Wahlkreis" :key="key" :value="value">
+                  {{ value }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="ort" class="block text-sm font-medium mb-1">Ort:</label>
+              <input v-model="neuerTermin.ort" type="text" id="ort" class="filter-input" />
+            </div>
+            <div class="form-group full-width">
+              <label for="bezeichnung" class="block text-sm font-medium mb-1">Beschreibung:</label>
+              <textarea v-model="neuerTermin.bezeichnung" id="bezeichnung" class="filter-input" rows="4"
+            ></textarea>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="nuudelLink" class="block text-sm font-medium mb-1">Nuudel-Link:</label>
+              <input v-model="neuerTermin.nuudelLink" type="url" id="nuudelLink" class="filter-input" />
+            </div>
+          </form>
+          <div class="flex justify-end  mt-4">
+            <button @click="abbrechen" class="btn-secondary mr-2">Abbrechen</button>
+            <button @click="speichern" class="btn-primary">OK</button>
+          </div>
+        </div>
       </div>
+
 
       <table>
         <thead>
