@@ -87,7 +87,6 @@ export default defineComponent({
     }
     function speichern() {
       if (!neuerTermin.value.datum || !neuerTermin.value.bezeichnung || !neuerTermin.value.ort) {
-        alert('Bitte alle Pflichtfelder ausfüllen!');
         return;
       }
 
@@ -148,16 +147,16 @@ export default defineComponent({
           <h2 class="text-xl font-bold mb-4">Neuen Termin anlegen</h2>
           <form class="grid-form">
             <div class="form-group">
-              <label for="datum" class="block text-sm font-medium mb-1">Datum:</label>
+              <label for="datum" class="block text-sm font-medium mb-1">Datum*:</label>
               <input v-model="neuerTermin.datum" type="date" id="datum" class="filter-input" />
             </div>
             <div class="form-group">
-              <label for="uhrzeit" class="block text-sm font-medium mb-1">Uhrzeit:</label>
+              <label for="uhrzeit" class="block text-sm font-medium mb-1">Uhrzeit*:</label>
               <input v-model="neuerTermin.uhrzeit" type="time" id="uhrzeit" class="filter-input" />
             </div>
 
             <div class="form-group">
-              <label for="wahlkreis" class="block text-sm font-medium mb-1">Wahlkreis:</label>
+              <label for="wahlkreis" class="block text-sm font-medium mb-1">Wahlkreis*:</label>
               <select v-model="neuerTermin.wahlkreis" id="wahlkreis" class="filter-input">
                 <option v-for="(value, key) in Wahlkreis" :key="key" :value="value">
                   {{ value }}
@@ -165,11 +164,11 @@ export default defineComponent({
               </select>
             </div>
             <div class="form-group">
-              <label for="ort" class="block text-sm font-medium mb-1">Ort:</label>
+              <label for="ort" class="block text-sm font-medium mb-1">Ort*:</label>
               <input v-model="neuerTermin.ort" type="text" id="ort" class="filter-input" />
             </div>
             <div class="form-group full-width">
-              <label for="bezeichnung" class="block text-sm font-medium mb-1">Beschreibung:</label>
+              <label for="bezeichnung" class="block text-sm font-medium mb-1">Beschreibung*:</label>
               <textarea v-model="neuerTermin.bezeichnung" id="bezeichnung" class="filter-input" rows="4"
             ></textarea>
             </div>
