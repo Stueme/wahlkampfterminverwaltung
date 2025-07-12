@@ -1,14 +1,5 @@
 import { defineStore } from 'pinia';
-
-interface Termin {
-  id: number;
-  datum: string;
-  uhrzeit?: string;
-  wahlkreis: string;
-  bezeichnung: string;
-  ort: string;
-  nuudelLink?: string;
-}
+import { Termin, Wahlkreis } from '../types/termin';
 
 
   

@@ -3,26 +3,8 @@ import { defineComponent, ref, computed } from 'vue';
 import { useTermineStore } from '../stores/termineStore';
 import { useRouter } from 'vue-router';
 
-interface Termin {
-  id: number;
-  datum: string;
-  uhrzeit?: string;
-  bezeichnung: string;
-  ort: string;
-  wahlkreis: Wahlkreis;
-  nuudelLink?: string;
-}
+import { Termin, Wahlkreis } from '../types/termin';
 
-enum Wahlkreis {
-  W0 = 'übergreifend',
-  W1 = 'Innenstadt 1 - Altstadt - Süd',
-  W2 = 'Innenstadt 2 - Neustadt - Süd',
-  W3 = 'Innenstadt 3 - Zülicher Platz',
-  W4 = 'Innenstadt 4 - Belgisches Viertel',
-  W5 = 'Innenstadt 5 - Agenesviertel',
-  W6 = 'Innenstadt 6 - Deutz',
-
-}
 
 export default defineComponent({
   name: 'TermineAnzeige',
@@ -124,7 +106,7 @@ export default defineComponent({
 
     <!-- Admin-Seite -->
     <div v-else>
-      <h1>Admin Ansicht</h1>
+      <h1>Termin Pflege</h1>
 
       <!-- Dropdown für Wahlkreis -->
       <div class="filter-container mb-4">
