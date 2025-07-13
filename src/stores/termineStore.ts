@@ -8,7 +8,14 @@ export const useTermineStore = defineStore('termine', {
     termine: JSON.parse(localStorage.getItem('termine') || '[]') as Termin[],
   }),
   getters: {
-    getTermine: (state) => state.termine,
+    getTermine: (state) => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Setze die Uhrzeit auf Mitternacht
+      return state.termine.filter((termin) => {
+        const terminDatum = new Date(termin.datum);
+        return terminDatum >= today; // Nur Termine ab dem heutigen Datum
+      });
+    },
   },
   actions: {
     deleteTerminById(id: number) {
