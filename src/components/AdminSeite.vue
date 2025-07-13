@@ -35,6 +35,19 @@ export default defineComponent({
       nuudelLink: '',
     });
 
+    function openDialog() {
+      neuerTermin.value = {
+        id: Date.now(), // Temporäre ID
+        datum: '',
+        uhrzeit: '',
+        bezeichnung: '',
+        ort: '',
+        wahlkreis: Wahlkreis.W0,
+        nuudelLink: '',
+      };
+      showDialog.value = true;
+    }
+
     const isAuthenticated = ref(false); // Authentifizierungsstatus
     const password = ref(''); // Passwort-Eingabe
     const correctPassword = 'ov1-admin'; // Statisches Passwort
@@ -87,12 +100,13 @@ export default defineComponent({
     }
     function speichern() {
       if (!neuerTermin.value.datum || !neuerTermin.value.bezeichnung || !neuerTermin.value.ort) {
+        alert('Es sind nicht alle Pflichtfelder gefüllt!');
         return;
       }
 
       termineStore.termine.push({ ...neuerTermin.value }); // Termin speichern
       termineStore.saveTermineToLocalStorage(); // Änderungen speichern
-      alert('Termin wurde erfolgreich angelegt!');
+
       showDialog.value = false; // Dialog schließen
     }
 
@@ -118,6 +132,7 @@ export default defineComponent({
       showDialog,
       neuerTermin,
       abbrechen,
+      openDialog,
     };
   },
 });
@@ -139,7 +154,7 @@ export default defineComponent({
       <h1>Termin Pflege</h1>
 
       <!-- Button "Neuen Termin anlegen" -->
-      <button @click="showDialog = true" class="btn-primary mb-4">Neuen Termin anlegen</button>
+      <button @click= "openDialog" class="btn-primary mb-4">Neuen Termin anlegen</button>
 
       <!-- Dialog für neuen Termin -->
       <div v-if="showDialog" class="dialog-overlay">
