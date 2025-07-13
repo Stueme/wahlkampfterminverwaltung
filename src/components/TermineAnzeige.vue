@@ -136,7 +136,7 @@ export default defineComponent({
       </tbody>
     </table>
     <div class="mt-4">
-      <button @click="navigateToAdmin" class="btn-primary">Admin</button>
+      <button @click="navigateToAdmin" class="btn-primary">Termine verwalten</button>
     </div>
   </div>
 </template>

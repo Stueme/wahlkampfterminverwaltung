@@ -135,6 +135,12 @@ export default defineComponent({
     function abbrechen() {
       showDialog.value = false; // Dialog schließen
     }
+    function navigateToExport() {
+      router.push('/export'); // Navigiere zur Export-Seite
+    }
+    function navigateToUebersicht() {
+      router.push('/'); //Zurück zur Übersicht
+    }
 
 
     return {
@@ -155,6 +161,8 @@ export default defineComponent({
       neuerTermin,
       abbrechen,
       openDialog,
+      navigateToExport,
+      navigateToUebersicht
     };
   },
 });
@@ -267,6 +275,12 @@ export default defineComponent({
           </tr>
         </tbody>
       </table>
+      <div class="mt-4">
+      <button @click="navigateToUebersicht" class="btn-primary">zur Übericht</button>
+      <button @click="navigateToExport" class="btn-secondary">JSON Export</button>
+
     </div>
+    </div>
+
   </div>
 </template>
