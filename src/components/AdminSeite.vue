@@ -23,6 +23,9 @@ export default defineComponent({
 
     // Dialog-Status
     const showDialog = ref(false);
+    const isEditing = ref(false); // Status: Bearbeiten oder Hinzufügen
+    const editTerminId = ref<number | null>(null); // ID des zu bearbeitenden Termins
+
 
     // Neuer Termin
     const neuerTermin = ref<Termin>({
@@ -35,16 +38,26 @@ export default defineComponent({
       nuudelLink: '',
     });
 
-    function openDialog() {
-      neuerTermin.value = {
-        id: Date.now(), // Temporäre ID
-        datum: '',
-        uhrzeit: '',
-        bezeichnung: '',
-        ort: '',
-        wahlkreis: Wahlkreis.W0,
-        nuudelLink: '',
-      };
+    function openDialog(termin?: Termin) {
+      if (termin) {
+        // Bearbeiten-Modus
+        isEditing.value = true;
+        editTerminId.value = termin.id;
+        neuerTermin.value = { ...termin }; // Termin-Daten in den Dialog laden
+      } else {
+        // Hinzufügen-Modus
+        isEditing.value = false;
+        editTerminId.value = null;
+        neuerTermin.value = {
+          id: Date.now(), // Temporäre ID
+          datum: '',
+          uhrzeit: '',
+          bezeichnung: '',
+          ort: '',
+          wahlkreis: Wahlkreis.W0,
+          nuudelLink: '',
+        };
+      }
       showDialog.value = true;
     }
 
@@ -104,7 +117,16 @@ export default defineComponent({
         return;
       }
 
-      termineStore.termine.push({ ...neuerTermin.value }); // Termin speichern
+      if (isEditing.value && editTerminId.value !== null) {
+        // Bearbeiten: Termin aktualisieren
+        const index = termineStore.termine.findIndex((t) => t.id === editTerminId.value);
+        if (index !== -1) {
+          termineStore.termine[index] = { ...neuerTermin.value };
+        }
+      } else {
+        // Hinzufügen: Neuen Termin speichern
+        termineStore.termine.push({ ...neuerTermin.value });
+      }
       termineStore.saveTermineToLocalStorage(); // Änderungen speichern
 
       showDialog.value = false; // Dialog schließen
@@ -151,10 +173,10 @@ export default defineComponent({
 
     <!-- Admin-Seite -->
     <div v-else>
-      <h1>Termin Pflege</h1>
+      <h1>Termine verwalten</h1>
 
       <!-- Button "Neuen Termin anlegen" -->
-      <button @click= "openDialog" class="btn-primary mb-4">Neuen Termin anlegen</button>
+      <button @click= "openDialog()" class="btn-primary mb-4">Neuen Termin anlegen</button>
 
       <!-- Dialog für neuen Termin -->
       <div v-if="showDialog" class="dialog-overlay">
@@ -227,6 +249,8 @@ export default defineComponent({
         <tbody>
           <tr v-for="termin in gefilterteUndSortierteTermine" :key="termin.id">
             <td>
+              <button @click="openDialog(termin)" class="btn-primary mr-2">Bearbeiten</button>
+           
               <button @click="deleteTermin(termin.id)" class="btn-danger">Löschen</button>
             </td>
             <td>{{ formatDatum(termin.datum) }}</td>
