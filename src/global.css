@@ -115,30 +115,6 @@ button:hover {
   background-color: var(--hover-color);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  h1 {
-    font-size: 1.5rem;
-  }
-
-  .filter-input {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  table {
-    font-size: 0.9rem;
-  }
-
-  th,
-  td {
-    padding: 0.5rem;
-  }
-
-  th {
-    font-size: 0.9rem;
-  }
-}
 
 @media (max-width: 480px) {
   h1 {
@@ -244,4 +220,134 @@ button:hover {
 /* Volle Breite für bestimmte Felder */
 .form-group.full-width {
   grid-column: span 2; /* Überspannt beide Spalten */
+}
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .container {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  table {
+    font-size: 1rem;
+  }
+
+  th, td {
+    padding: 0.75rem;
+  }
+
+  .grid-form {
+    grid-template-columns: 1fr; /* Eine Spalte bei mittleren Bildschirmen */
+  }
+}
+
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0.5rem;
+  }
+
+  h1 {
+    font-size: 1.2rem;
+  }
+
+  .filter-input {
+    font-size: 0.9rem;
+    padding: 0.4rem;
+  }
+
+  table {
+    font-size: 0.8rem;
+  }
+
+  th, td {
+    padding: 0.4rem;
+  }
+
+  th {
+    font-size: 0.8rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .dialog {
+    padding: 1rem;
+    max-width: 100%; /* Dialog nimmt die gesamte Breite ein */
+  }
+}
+@media (max-width: 768px) {
+  table {
+    display: block; /* Tabelle wird in ein Block-Layout umgewandelt */
+    width: 100%; /* Tabelle nimmt die volle Breite ein */
+  }
+
+  thead {
+    display: none; /* Tabellenkopf ausblenden */
+  }
+  tbody {
+    display: block; /* Tabellenbody wird in ein Block-Layout umgewandelt */
+    width: 100%; /* Tabellenbody nimmt die volle Breite ein */
+  }
+
+  tr {
+    display: block; /* Jede Zeile wird zu einem Block */
+    margin: 0; /* Entfernt zusätzlichen Außenabstand */
+    margin-bottom: 1rem; /* Abstand zwischen den Karten */
+    width: 100%; /* Zeilen nehmen die volle Breite ein */
+    box-sizing: border-box; /* Innenabstand wird in die Breite einbezogen */
+    background-color: var(--background-color); /* Hintergrundfarbe für die Karten */
+    border: 1px solid var(--border-color); /* Rahmen um die Karten */
+    border-radius: 0.375rem; /* Abgerundete Ecken */
+    padding: 0.5rem; /* Innenabstand */
+  }
+
+  td {
+    display: flex;
+    justify-content: column; /* Inhalt wird gleichmäßig verteilt */
+    align-items: center; /* Vertikale Ausrichtung */
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--border-color); /* Trennlinie zwischen den Feldern */
+    width: 100%; /* Zellen nehmen die volle Breite ein */
+    box-sizing: border-box; /* Innenabstand wird in die Breite einbezogen */
+  }
+
+  td:last-child {
+    border-bottom: none; /* Entfernt die Trennlinie beim letzten Feld */
+  }
+
+  td::before {
+    content: attr(data-label); /* Zeigt die Spaltenüberschrift an */
+    font-weight: bold;
+    margin-right: 1rem;
+    color: var(--text-color);
+    flex-shrink: 0; /* Verhindert, dass die Spaltenüberschrift schrumpft */
+    width: auto; /* Passt sich dem Inhalt an */
+    min-width: 30%; /* Mindestbreite für die Spaltenüberschrift */
+    text-align: left; /* Text linksbündig */
+  }
+
+  td span {
+    flex-grow: 1; /* Der Inhalt nimmt den restlichen Platz ein */
+    text-align: left; /* Text linksbündig */
+    word-wrap: break-word; /* Längere Wörter umbrechen */
+  }
+
+  /* Entfernt unnötige Außenabstände des Containers */
+  .table-container {
+    padding: 0;
+    margin: 0;
+    width: 100%; /* Container nimmt die volle Breite ein */
+  }
+
+  /* Sicherstellen, dass die Karten den Container ausfüllen */
+  .table-container tr {
+    width: 100%; /* Karten nehmen die volle Breite des Containers ein */
+    margin: 0 auto; /* Zentriert die Karten */
+  }
 }

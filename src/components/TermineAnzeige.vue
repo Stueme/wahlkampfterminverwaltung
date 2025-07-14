@@ -89,7 +89,6 @@ export default defineComponent({
 
     <!-- Dropdown für Wahlkreis -->
     <div class="filter-container mb-4">
-      <label for="wahlkreis" class="block text-lg font-medium mb-2">Wahlkreis filtern:</label>
       <select v-model="selectedWahlkreis" id="wahlkreis" class="filter-input">
         <option :value="null">Alle Wahlkreise</option>
         <option v-for="(value, key) in Wahlkreis" :key="key" :value="value">
@@ -122,11 +121,11 @@ export default defineComponent({
       </thead>
       <tbody>
         <tr v-for="termin in gefilterteUndSortierteTermine" :key="termin.id">
-          <td>{{ formatDatum(termin.datum) }}</td>
-          <td>{{ termin.wahlkreis }}</td>
-          <td>{{ termin.bezeichnung }}</td>
-          <td>{{ termin.ort }}</td>
-          <td>
+          <td data-label="Datum">{{ formatDatum(termin.datum) }}</td>
+          <td data-label="Wahlkreis">{{ termin.wahlkreis }}</td>
+          <td data-label="Beschreibung">{{ termin.bezeichnung }}</td>
+          <td data-label="Ort">{{ termin.ort }}</td>
+          <td data-label="Teilnahme-Umfrage">
             <a v-if="termin.nuudelLink" :href="termin.nuudelLink" target="_blank" class="text-blue-500 hover:underline">
               nuddel
             </a>

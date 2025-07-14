@@ -234,7 +234,7 @@ export default defineComponent({
       <table>
         <thead>
           <tr>
-            <th>Aktion</th>
+           
             <th @click="sortBy('datum')">
               Datum
               <span class="sort-indicator">{{ sortKey === 'datum' ? (sortAsc ? '▲' : '▼') : '' }}</span>
@@ -252,25 +252,27 @@ export default defineComponent({
               <span class="sort-indicator">{{ sortKey === 'ort' ? (sortAsc ? '▲' : '▼') : '' }}</span>
             </th>
             <th>Teilnahme-Umfrage</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="termin in gefilterteUndSortierteTermine" :key="termin.id">
-            <td>
-              <button @click="openDialog(termin)" class="btn-primary mr-2">Bearbeiten</button>
-           
-              <button @click="deleteTermin(termin.id)" class="btn-danger">Löschen</button>
-            </td>
-            <td>{{ formatDatum(termin.datum) }}</td>
-            <td>{{ termin.wahlkreis }}</td>
-            <td>{{ termin.bezeichnung }}</td>
-            <td>{{ termin.ort }}</td>
-            <td>
+     
+            <td data-label="Datum">{{ formatDatum(termin.datum) }}</td>
+            <td data-label="Wahlkreis">{{ termin.wahlkreis }}</td>
+            <td data-label="Beschreibung">{{ termin.bezeichnung }}</td>
+            <td data-label="Ort">{{ termin.ort }}</td>
+            <td data-label="Teilnahme-Umfrage">
               <a v-if="termin.nuudelLink" :href="termin.nuudelLink" target="_blank"
                 class="text-blue-500 hover:underline">
                 nuddel
               </a>
               <span v-else>-</span>
+            </td>
+            <td>
+              <button @click="openDialog(termin)" class="btn-primary mr-2">Bearbeiten</button>
+           
+              <button @click="deleteTermin(termin.id)" class="btn-danger">Löschen</button>
             </td>
           </tr>
         </tbody>
