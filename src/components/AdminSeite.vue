@@ -14,7 +14,7 @@ export default defineComponent({
     const router = useRouter(); // Router-Instanz verwenden
 
 
-    const termine = termineStore.getTermine;
+    const termine = ref(termineStore.getTermine);
 
     const sortKey = ref<keyof Termin>('datum');
     const sortAsc = ref(true);
@@ -66,7 +66,7 @@ export default defineComponent({
     const correctPassword = 'ov1-admin'; // Statisches Passwort
 
     const gefilterteUndSortierteTermine = computed(() => {
-      return termine
+      return termine.value
         .filter(t => t.bezeichnung.toLowerCase().includes(filterText.value.toLowerCase()))
         .sort((a, b) => {
           let valA = a[sortKey.value];
@@ -128,6 +128,7 @@ export default defineComponent({
         termineStore.termine.push({ ...neuerTermin.value });
       }
       termineStore.saveTermineToLocalStorage(); // Änderungen speichern
+      termine.value = termineStore.getTermine;
 
       showDialog.value = false; // Dialog schließen
     }

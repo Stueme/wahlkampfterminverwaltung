@@ -1,4 +1,3 @@
-
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted } from 'vue';
 import { useTermineStore } from '../stores/termineStore';
@@ -11,13 +10,15 @@ export default defineComponent({
   setup() {
 
     const termineStore = useTermineStore();
-        // Lade die initialen Termine beim Mounten der Komponente
-        onMounted(() => {
-      termineStore.loadInitialTermine();
+    const termine = ref<Termin[]>([]); // Lokale Variable für Termine
+
+    // Lade die initialen Termine beim Mounten der Komponente
+    onMounted(() => {
+      termineStore.loadInitialTermine()
+      termine.value = termineStore.getTermine;
     });
     const router = useRouter(); // Router-Instanz verwenden
 
-    const termine = termineStore.getTermine;
 
     const sortKey = ref<keyof Termin>('datum');
     const sortAsc = ref(true);
@@ -26,7 +27,7 @@ export default defineComponent({
 
 
     const gefilterteUndSortierteTermine = computed(() => {
-      return termine
+      return termine.value
         .filter(t => t.bezeichnung.toLowerCase().includes(filterText.value.toLowerCase()))
         .filter(t => !selectedWahlkreis.value || t.wahlkreis === selectedWahlkreis.value)
         .sort((a, b) => {
