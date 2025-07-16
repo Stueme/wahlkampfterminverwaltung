@@ -10,13 +10,8 @@ export default defineComponent({
   setup() {
 
     const termineStore = useTermineStore();
-    const termine = ref<Termin[]>([]); // Lokale Variable für Termine
+    const termine = computed(() => termineStore.termine);
 
-    // Lade die initialen Termine beim Mounten der Komponente
-    onMounted(() => {
-      termineStore.loadInitialTermine()
-      termine.value = termineStore.getTermine;
-    });
     const router = useRouter(); // Router-Instanz verwenden
 
 

@@ -8,6 +8,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "dropbox": "^10.34.0",
     "pinia": "^3.0.3",
     "vue": "^3.4.15",
     "vue-router": "^4.5.1"

@@ -127,7 +127,7 @@ export default defineComponent({
         // Hinzufügen: Neuen Termin speichern
         termineStore.termine.push({ ...neuerTermin.value });
       }
-      termineStore.saveTermineToLocalStorage(); // Änderungen speichern
+      termineStore.saveTermineToDropbox(); // Änderungen speichern
       termine.value = termineStore.getTermine;
 
       showDialog.value = false; // Dialog schließen
