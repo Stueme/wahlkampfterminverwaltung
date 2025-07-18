@@ -21,6 +21,34 @@ export const useTermineStore = defineStore('termine', {
         return terminDatum >= today; // Nur Termine ab dem heutigen Datum
       });
     },
+    getFilteredAndSortedTermine: (state) => (filterText: string, sortKey: keyof Termin, sortAsc: boolean) => {
+      return state.termine
+        .filter((t) =>
+          t.bezeichnung.toLowerCase().includes(filterText.toLowerCase())
+        )
+        .sort((a, b) => {
+          let valA = a[sortKey];
+          let valB = b[sortKey];
+    
+          // Primäre Sortierung
+          if (sortKey === 'datum') {
+            const dateDiff =
+              new Date(valA || '').getTime() - new Date(valB || '').getTime();
+            if (dateDiff !== 0) {
+              return sortAsc ? dateDiff : -dateDiff;
+            }
+          } else {
+            const primaryDiff = String(valA).localeCompare(String(valB));
+            if (primaryDiff !== 0) {
+              return sortAsc ? primaryDiff : -primaryDiff;
+            }
+          }
+    
+          // Sekundäre Sortierung nach Wahlkreis
+          const wahlkreisDiff = a.wahlkreis.localeCompare(b.wahlkreis);
+          return sortAsc ? wahlkreisDiff : -wahlkreisDiff;
+        });
+    }
   },
   actions: {
     deleteTerminById(id: number) {

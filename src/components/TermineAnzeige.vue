@@ -22,24 +22,12 @@ export default defineComponent({
 
 
     const gefilterteUndSortierteTermine = computed(() => {
-      return termine.value
-        .filter(t => t.bezeichnung.toLowerCase().includes(filterText.value.toLowerCase()))
-        .filter(t => !selectedWahlkreis.value || t.wahlkreis === selectedWahlkreis.value)
-        .sort((a, b) => {
-          let valA = a[sortKey.value];
-          let valB = b[sortKey.value];
-
-          if (sortKey.value === 'datum') {
-            return sortAsc.value
-              ? new Date(valA || '').getTime() - new Date(valB || '').getTime()
-              : new Date(valB || '').getTime() - new Date(valA || '').getTime();
-          }
-
-          return sortAsc.value
-            ? String(valA).localeCompare(String(valB))
-            : String(valB).localeCompare(String(valA));
-        });
-    });
+      return termineStore.getFilteredAndSortedTermine(
+        filterText.value,
+        sortKey.value,
+        sortAsc.value
+      );
+    })
 
     function sortBy(key: keyof Termin) {
       if (sortKey.value === key) {
