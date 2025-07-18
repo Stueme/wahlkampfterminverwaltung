@@ -27,6 +27,9 @@ export default defineComponent({
     const editTerminId = ref<number | null>(null); // ID des zu bearbeitenden Termins
 
 
+    const showDeleteDialog = ref(false); // Status des Löschdialogs
+const terminToDelete = ref<number | null>(null); // ID des zu löschenden Termins
+
     // Neuer Termin
     const neuerTermin = ref<Termin>({
       id: Date.now(), // Temporäre ID
@@ -110,6 +113,7 @@ export default defineComponent({
 
     function deleteTermin(id: number) {
       termineStore.deleteTerminById(id);
+      termineStore.saveTermineToDropbox(); 
     }
     function speichern() {
       if (!neuerTermin.value.datum || !neuerTermin.value.bezeichnung || !neuerTermin.value.ort) {
@@ -142,10 +146,31 @@ export default defineComponent({
     function navigateToUebersicht() {
       router.push('/'); //Zurück zur Übersicht
     }
+    function openDeleteDialog(id: number) {
+  terminToDelete.value = id; // Speichere die ID des zu löschenden Termins
+  showDeleteDialog.value = true; // Zeige den Dialog an
+}
 
+function cancelDelete() {
+  terminToDelete.value = null; // Zurücksetzen
+  showDeleteDialog.value = false; // Dialog schließen
+}
+
+function confirmDelete() {
+  if (terminToDelete.value !== null) {
+    deleteTermin(terminToDelete.value); // Termin löschen
+    termine.value = termineStore.getTermine; // Lokale Referenz aktualisieren
+
+  }
+  cancelDelete(); // Dialog schließen
+}
 
     return {
       termine,
+      confirmDelete,
+      cancelDelete,
+      openDeleteDialog,
+      showDeleteDialog,
       sortKey,
       sortAsc,
       filterText,
@@ -273,8 +298,7 @@ export default defineComponent({
             <td>
               <button @click="openDialog(termin)" class="btn-primary mr-2">Bearbeiten</button>
            
-              <button @click="deleteTermin(termin.id)" class="btn-danger">Löschen</button>
-            </td>
+              <button @click="openDeleteDialog(termin.id)" class="btn-danger">Löschen</button>            </td>
           </tr>
         </tbody>
       </table>
@@ -284,6 +308,16 @@ export default defineComponent({
 
     </div>
     </div>
+    <div v-if="showDeleteDialog" class="dialog-overlay">
+  <div class="dialog">
+    <h2 class="text-xl font-bold mb-4">Termin löschen</h2>
+    <p>Möchtest du diesen Termin wirklich löschen?</p>
+    <div class="flex justify-end mt-4">
+      <button @click="cancelDelete" class="btn-secondary mr-2">Abbrechen</button>
+      <button @click="confirmDelete" class="btn-danger">OK</button>
+    </div>
+  </div>
+</div>
 
   </div>
 </template>
