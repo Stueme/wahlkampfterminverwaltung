@@ -2,6 +2,7 @@
 import { defineComponent, ref, computed, onMounted } from 'vue';
 import { useTermineStore } from '../stores/termineStore';
 import { useRouter } from 'vue-router';
+import { formatDatum } from '../util/formatting'; // Importiere die zentrale Funktion
 
 import { Termin, Wahlkreis } from '../types/termin';
 
@@ -101,19 +102,7 @@ export default defineComponent({
       }
     }
 
-    function formatDatum(termin: Termin): string {
-      const date = new Date(termin.datum);
-      const time = termin.uhrzeit ? termin.uhrzeit : date.toLocaleTimeString('de-DE', {
-        hour: '2-digit',
-        minute: '2-digit',
-      });
 
-      return date.toLocaleDateString('de-DE', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      }) + ' ' + time + ' Uhr';
-    }
 
     function deleteTermin(id: number) {
       termineStore.deleteTerminById(id);

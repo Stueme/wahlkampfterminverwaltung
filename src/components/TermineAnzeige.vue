@@ -4,6 +4,7 @@ import { useTermineStore } from '../stores/termineStore';
 import { useRouter } from 'vue-router';
 import { Termin, Wahlkreis } from '../types/termin';
 
+import { formatDatum } from '../util/formatting'; // Importiere die zentrale Funktion
 
 export default defineComponent({
   name: 'TermineAnzeige',
@@ -41,19 +42,6 @@ export default defineComponent({
       }
     }
 
-    function formatDatum(termin: Termin): string {
-      const date = new Date(termin.datum);
-      const time = termin.uhrzeit ? termin.uhrzeit : date.toLocaleTimeString('de-DE', {
-        hour: '2-digit',
-        minute: '2-digit',
-      });
-
-      return date.toLocaleDateString('de-DE', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      }) + ' ' + time + ' Uhr';
-    }
 
     function navigateToAdmin() {
       router.push('/admin'); // Navigiere zur Export-Seite
