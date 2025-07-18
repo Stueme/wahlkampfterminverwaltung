@@ -68,15 +68,15 @@ th {
 }
 
 th:hover {
-  background-color: var(--hover-color);
-}
-
-tr:nth-child(even) {
   background-color: var(--secondary-color);
 }
 
-tr:hover {
+tr:nth-child(even) {
   background-color: var(--hover-color);
+}
+
+tr:hover {
+  background-color: var(--secondary-color);
   color: white;
 }
 
