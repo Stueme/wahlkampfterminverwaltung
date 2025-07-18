@@ -41,12 +41,18 @@ export default defineComponent({
       }
     }
 
-    function formatDatum(datum: string): string {
-      return new Date(datum).toLocaleDateString('de-DE', {
+    function formatDatum(termin: Termin): string {
+      const date = new Date(termin.datum);
+      const time = termin.uhrzeit ? termin.uhrzeit : date.toLocaleTimeString('de-DE', {
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+
+      return date.toLocaleDateString('de-DE', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
-      });
+      }) + ' ' + time + ' Uhr';
     }
 
     function navigateToAdmin() {
@@ -108,11 +114,11 @@ export default defineComponent({
       </thead>
       <tbody>
         <tr v-for="termin in gefilterteUndSortierteTermine" :key="termin.id">
-          <td data-label="Datum">{{ formatDatum(termin.datum) }}</td>
+          <td data-label="Datum">{{ formatDatum(termin) }}</td>
           <td data-label="Wahlkreis">{{ termin.wahlkreis }}</td>
           <td data-label="Beschreibung">{{ termin.bezeichnung }}</td>
           <td data-label="Ort">{{ termin.ort }}</td>
-          <td data-label="Teilnahme-Umfrage">
+          <td data-label="Teilnahmeumfrage">
             <a v-if="termin.nuudelLink" :href="termin.nuudelLink" target="_blank" class="text-blue-500 hover:underline">
               nuddel
             </a>
