@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref, computed, onMounted } from 'vue';
 import { useTermineStore } from '../stores/termineStore';
 import { useRouter } from 'vue-router';
 
@@ -28,7 +28,7 @@ export default defineComponent({
 
 
     const showDeleteDialog = ref(false); // Status des Löschdialogs
-const terminToDelete = ref<number | null>(null); // ID des zu löschenden Termins
+    const terminToDelete = ref<number | null>(null); // ID des zu löschenden Termins
 
     // Neuer Termin
     const neuerTermin = ref<Termin>({
@@ -68,6 +68,22 @@ const terminToDelete = ref<number | null>(null); // ID des zu löschenden Termin
     const password = ref(''); // Passwort-Eingabe
     const correctPassword = 'ov1-admin'; // Statisches Passwort
 
+
+    // Prüfe den Authentifizierungsstatus beim Laden der Seite
+    onMounted(() => {
+      const storedAuth = localStorage.getItem('isAuthenticated');
+      isAuthenticated.value = storedAuth === 'true'; // Konvertiere den gespeicherten Wert in einen Boolean
+    });
+    function login() {
+      if (password.value === correctPassword) {
+        isAuthenticated.value = true;
+        localStorage.setItem('isAuthenticated', 'true'); // Speichere den Status im LocalStorage
+        password.value = ''; // Passwort-Feld zurücksetzen
+      } else {
+        alert('Falsches Passwort!');
+      }
+    }
+
     const gefilterteUndSortierteTermine = computed(() => {
       return termineStore.getFilteredAndSortedTermine(
         filterText.value,
@@ -92,17 +108,10 @@ const terminToDelete = ref<number | null>(null); // ID des zu löschenden Termin
         day: 'numeric',
       });
     }
-    function checkPassword() {
-      if (password.value === correctPassword) {
-        isAuthenticated.value = true;
-      } else {
-        alert('Falsches Passwort!');
-      }
-    }
 
     function deleteTermin(id: number) {
       termineStore.deleteTerminById(id);
-      termineStore.saveTermineToDropbox(); 
+      termineStore.saveTermineToDropbox();
     }
     function speichern() {
       if (!neuerTermin.value.datum || !neuerTermin.value.bezeichnung || !neuerTermin.value.ort) {
@@ -136,23 +145,24 @@ const terminToDelete = ref<number | null>(null); // ID des zu löschenden Termin
       router.push('/'); //Zurück zur Übersicht
     }
     function openDeleteDialog(id: number) {
-  terminToDelete.value = id; // Speichere die ID des zu löschenden Termins
-  showDeleteDialog.value = true; // Zeige den Dialog an
-}
+      terminToDelete.value = id; // Speichere die ID des zu löschenden Termins
+      showDeleteDialog.value = true; // Zeige den Dialog an
+    }
 
-function cancelDelete() {
-  terminToDelete.value = null; // Zurücksetzen
-  showDeleteDialog.value = false; // Dialog schließen
-}
+    function cancelDelete() {
+      terminToDelete.value = null; // Zurücksetzen
+      showDeleteDialog.value = false; // Dialog schließen
+    }
 
-function confirmDelete() {
-  if (terminToDelete.value !== null) {
-    deleteTermin(terminToDelete.value); // Termin löschen
-    termine.value = termineStore.getTermine; // Lokale Referenz aktualisieren
+    function confirmDelete() {
+      if (terminToDelete.value !== null) {
+        deleteTermin(terminToDelete.value); // Termin löschen
+        termine.value = termineStore.getTermine; // Lokale Referenz aktualisieren
 
-  }
-  cancelDelete(); // Dialog schließen
-}
+      }
+      cancelDelete(); // Dialog schließen
+    }
+    
 
     return {
       termine,
@@ -169,7 +179,7 @@ function confirmDelete() {
       Wahlkreis,
       isAuthenticated,
       password,
-      checkPassword,
+      login,
       deleteTermin,
       speichern,
       showDialog,
@@ -180,6 +190,7 @@ function confirmDelete() {
       navigateToUebersicht
     };
   },
+  
 });
 </script>
 
@@ -191,7 +202,7 @@ function confirmDelete() {
       <p>Bitte gebe das Admin-Passwort ein. Wenn du das nicht kennst frage den Wahlkampfmanager, die Veedelspat*innen
         oder den Vorstand, um Termine zu aktualiseren.:</p>
       <input v-model="password" type="password" placeholder="Passwort eingeben" class="filter-input mb-4" />
-      <button @click="checkPassword" class="btn-primary">Anmelden</button>
+      <button @click="login" class="btn-primary">Anmelden</button>
     </div>
 
     <!-- Admin-Seite -->
@@ -199,7 +210,7 @@ function confirmDelete() {
       <h1>Termine verwalten</h1>
 
       <!-- Button "Neuen Termin anlegen" -->
-      <button @click= "openDialog()" class="btn-primary mb-4">Neuen Termin anlegen</button>
+      <button @click="openDialog()" class="btn-primary mb-4">Neuen Termin anlegen</button>
 
       <!-- Dialog für neuen Termin -->
       <div v-if="showDialog" class="dialog-overlay">
@@ -229,8 +240,7 @@ function confirmDelete() {
             </div>
             <div class="form-group full-width">
               <label for="bezeichnung" class="block text-sm font-medium mb-1">Beschreibung*:</label>
-              <textarea v-model="neuerTermin.bezeichnung" id="bezeichnung" class="filter-input" rows="4"
-            ></textarea>
+              <textarea v-model="neuerTermin.bezeichnung" id="bezeichnung" class="filter-input" rows="4"></textarea>
             </div>
 
             <div class="form-group full-width">
@@ -249,7 +259,7 @@ function confirmDelete() {
       <table>
         <thead>
           <tr>
-           
+
             <th @click="sortBy('datum')">
               Datum
               <span class="sort-indicator">{{ sortKey === 'datum' ? (sortAsc ? '▲' : '▼') : '' }}</span>
@@ -272,7 +282,7 @@ function confirmDelete() {
         </thead>
         <tbody>
           <tr v-for="termin in gefilterteUndSortierteTermine" :key="termin.id">
-     
+
             <td data-label="Datum">{{ formatDatum(termin.datum) }}</td>
             <td data-label="Wahlkreis">{{ termin.wahlkreis }}</td>
             <td data-label="Beschreibung">{{ termin.bezeichnung }}</td>
@@ -286,27 +296,28 @@ function confirmDelete() {
             </td>
             <td>
               <button @click="openDialog(termin)" class="btn-primary mr-2">Bearbeiten</button>
-           
-              <button @click="openDeleteDialog(termin.id)" class="btn-danger">Löschen</button>            </td>
+
+              <button @click="openDeleteDialog(termin.id)" class="btn-danger">Löschen</button>
+            </td>
           </tr>
         </tbody>
       </table>
       <div class="mt-4">
-      <button @click="navigateToUebersicht" class="btn-primary">zur Übericht</button>
-      <button @click="navigateToExport" class="btn-secondary">JSON Export</button>
+        <button @click="navigateToUebersicht" class="btn-primary">zur Übericht</button>
+        <button @click="navigateToExport" class="btn-secondary">JSON Export</button>
 
-    </div>
+      </div>
     </div>
     <div v-if="showDeleteDialog" class="dialog-overlay">
-  <div class="dialog">
-    <h2 class="text-xl font-bold mb-4">Termin löschen</h2>
-    <p>Möchtest du diesen Termin wirklich löschen?</p>
-    <div class="flex justify-end mt-4">
-      <button @click="cancelDelete" class="btn-secondary mr-2">Abbrechen</button>
-      <button @click="confirmDelete" class="btn-danger">OK</button>
+      <div class="dialog">
+        <h2 class="text-xl font-bold mb-4">Termin löschen</h2>
+        <p>Möchtest du diesen Termin wirklich löschen?</p>
+        <div class="flex justify-end mt-4">
+          <button @click="cancelDelete" class="btn-secondary mr-2">Abbrechen</button>
+          <button @click="confirmDelete" class="btn-danger">OK</button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
   </div>
 </template>
