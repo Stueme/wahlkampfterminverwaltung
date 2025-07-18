@@ -26,7 +26,10 @@ export default defineComponent({
         filterText.value,
         sortKey.value,
         sortAsc.value
-      );
+      ).filter((termin) => {
+    // Filtere nach Wahlkreis, wenn einer ausgewählt ist
+    return selectedWahlkreis.value === null || termin.wahlkreis === selectedWahlkreis.value;
+  });
     })
 
     function sortBy(key: keyof Termin) {
