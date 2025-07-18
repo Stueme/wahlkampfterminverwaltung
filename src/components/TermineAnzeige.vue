@@ -97,7 +97,7 @@ export default defineComponent({
             Ort
             <span class="sort-indicator">{{ sortKey === 'ort' ? (sortAsc ? '▲' : '▼') : '' }}</span>
           </th>
-          <th>Teilnahme-Umfrage</th>
+          <th>Teilnahmeumfrage</th>
         </tr>
       </thead>
       <tbody>
