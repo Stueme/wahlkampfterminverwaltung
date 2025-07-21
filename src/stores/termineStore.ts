@@ -65,20 +65,39 @@ export const useTermineStore = defineStore('termine', {
     },
     
     getFilteredAndSortedTermine: (state) => (filterText: string, sortKey: keyof Termin, sortAsc: boolean) => {
+      const now = new Date(); // Aktuelles Datum und Uhrzeit
+      const todayStart = new Date(now);
+      todayStart.setHours(0, 0, 0, 0); // Beginn des aktuellen Tages
+    
       return state.termine
-        .filter((t) =>
-          t.bezeichnung.toLowerCase().includes(filterText.toLowerCase())
-        )
+        .filter((t) => {
+          const terminDatum = new Date(t.datum);
+    
+          // Filtere Termine, die vor dem Beginn des aktuellen Tages liegen
+          if (terminDatum < todayStart) {
+            return false;
+          }
+    
+          // Filtere nach Bezeichnung (case-insensitive)
+          return t.bezeichnung.toLowerCase().includes(filterText.toLowerCase());
+        })
         .sort((a, b) => {
           let valA = a[sortKey];
           let valB = b[sortKey];
     
           // Primäre Sortierung
           if (sortKey === 'datum') {
-            const dateDiff =
-              new Date(valA || '').getTime() - new Date(valB || '').getTime();
+            const dateDiff = new Date(valA || '').getTime() - new Date(valB || '').getTime();
             if (dateDiff !== 0) {
               return sortAsc ? dateDiff : -dateDiff;
+            }
+    
+            // Innerhalb des gleichen Datums nach Uhrzeit sortieren
+            const timeA = new Date(valA || '').getHours() * 60 + new Date(valA || '').getMinutes();
+            const timeB = new Date(valB || '').getHours() * 60 + new Date(valB || '').getMinutes();
+            const timeDiff = timeA - timeB;
+            if (timeDiff !== 0) {
+              return sortAsc ? timeDiff : -timeDiff;
             }
           } else {
             const primaryDiff = String(valA).localeCompare(String(valB));
