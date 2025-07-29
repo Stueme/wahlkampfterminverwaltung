@@ -67,6 +67,9 @@ export default defineComponent({
 <template>
   <div class="container">
     <h1>OV1 Wahlkampftermine</h1>
+    <div class="info-box">
+        Bei Fragen wende dich an unseren Wahlkampfmanager über joerg.eichenauer@gruenekoeln.de oder schreibe an innenstadt@gruenekoeln.de 
+    </div>
 
     <!-- Dropdown für Wahlkreis -->
     <div class="filter-container mb-4">

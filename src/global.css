@@ -27,11 +27,13 @@ body {
 }
 
 h1 {
-  color: var(--primary-color);
-  font-size: 4rem;
+  font-size: 2.5rem;
   font-weight: bold;
   text-align: center;
   margin-bottom: 1.5rem;
+  color: var(--primary-color);
+  letter-spacing: 0.1rem; /* Buchstabenabstand */
+  text-transform: uppercase; /* Großbuchstaben */
 }
 
 .filter-input {
@@ -350,4 +352,16 @@ button:hover {
     width: 100%; /* Karten nehmen die volle Breite des Containers ein */
     margin: 0 auto; /* Zentriert die Karten */
   }
+}
+.info-box {
+  background-color: var(--primary-color);
+  border: 1px solid #ddd;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: white;
+  max-width: 400px;
+  text-align: center; /* Zentriere den Text */
+  margin: 0 auto; /* Zentriere die Box horizontal */
+  margin-bottom: 1rem; /* Abstand nach unten */
 }
