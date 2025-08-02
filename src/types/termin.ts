@@ -1,12 +1,12 @@
 export interface Termin {
-    id: number;
-    datum: string;
+  id: number;
+  datum: string;
     uhrzeit?: string;
-    bezeichnung: string;
-    ort: string;
-    wahlkreis: Wahlkreis;
-    nuudelLink?: string;
-  }
+  bezeichnung: string;
+  ort: string;
+  wahlkreis: string | string[]; // Unterstützt sowohl Strings als auch Arrays
+  nuudelLink?: string;
+}
   
   export enum Wahlkreis {
     W0 = 'übergreifend',

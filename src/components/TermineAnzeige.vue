@@ -28,9 +28,9 @@ export default defineComponent({
         sortKey.value,
         sortAsc.value
       ).filter((termin) => {
-    // Filtere nach Wahlkreis, wenn einer ausgewählt ist
-    return selectedWahlkreis.value === null || termin.wahlkreis === selectedWahlkreis.value;
-  });
+        // Filtere nach Wahlkreis, wenn einer ausgewählt ist
+        return selectedWahlkreis.value === null || termin.wahlkreis.includes(selectedWahlkreis.value);
+      });
     })
 
     function sortBy(key: keyof Termin) {
@@ -68,7 +68,8 @@ export default defineComponent({
   <div class="container">
     <h1>OV1 Wahlkampftermine</h1>
     <div class="info-box">
-        Bei Fragen wende dich an unseren Wahlkampfmanager über joerg.eichenauer@gruenekoeln.de oder schreibe an innenstadt@gruenekoeln.de 
+      Bei Fragen wende dich an unseren Wahlkampfmanager über joerg.eichenauer@gruenekoeln.de oder schreibe an
+      innenstadt@gruenekoeln.de
     </div>
 
     <!-- Dropdown für Wahlkreis -->
@@ -106,7 +107,14 @@ export default defineComponent({
       <tbody>
         <tr v-for="termin in gefilterteUndSortierteTermine" :key="termin.id">
           <td data-label="Datum">{{ formatDatum(termin) }}</td>
-          <td data-label="Wahlkreis">{{ termin.wahlkreis }}</td>
+          <td data-label="Wahlkreis">
+            <template v-if="Array.isArray(termin.wahlkreis)">
+              {{ termin.wahlkreis.join(' ') }}
+            </template>
+            <template v-else>
+              {{ termin.wahlkreis }}
+            </template>
+          </td>
           <td data-label="Beschreibung">{{ termin.bezeichnung }}</td>
           <td data-label="Ort">{{ termin.ort }}</td>
           <td data-label="Teilnahmeumfrage">

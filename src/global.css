@@ -32,8 +32,10 @@ h1 {
   text-align: center;
   margin-bottom: 1.5rem;
   color: var(--primary-color);
-  letter-spacing: 0.1rem; /* Buchstabenabstand */
-  text-transform: uppercase; /* Großbuchstaben */
+  letter-spacing: 0.1rem;
+  /* Buchstabenabstand */
+  text-transform: uppercase;
+  /* Großbuchstaben */
 }
 
 .filter-input {
@@ -147,66 +149,66 @@ button:hover {
   }
 }
 
-  /* Dialog Overlay */
-  .dialog-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
+/* Dialog Overlay */
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
 
-  /* Dialog Box */
-  .dialog {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 0.5rem;
-    width: 100%;
-    max-width: 500px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
+/* Dialog Box */
+.dialog {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
-  /* Buttons */
-  .btn-primary {
-    background-color: #469a1f;
-    color: white;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 0.375rem;
-    cursor: pointer;
-  }
+/* Buttons */
+.btn-primary {
+  background-color: #469a1f;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+}
 
-  .btn-primary:hover {
-    background-color: #367a18;
-  }
+.btn-primary:hover {
+  background-color: #367a18;
+}
 
-  .btn-secondary {
-    background-color: #ccc;
-    color: black;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 0.375rem;
-    cursor: pointer;
-  }
+.btn-secondary {
+  background-color: #ccc;
+  color: black;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+}
 
-  .btn-secondary:hover {
-    background-color: #bbb;
-  }
+.btn-secondary:hover {
+  background-color: #bbb;
+}
 
-  /* Input Fields */
-  .filter-input {
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 0.375rem;
+/* Input Fields */
+.filter-input {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 0.375rem;
 
-  }
+}
 
 /* Grid Layout for Form */
 .grid-form {
@@ -219,10 +221,13 @@ button:hover {
   display: flex;
   flex-direction: column;
 }
+
 /* Volle Breite für bestimmte Felder */
 .form-group.full-width {
-  grid-column: span 2; /* Überspannt beide Spalten */
+  grid-column: span 2;
+  /* Überspannt beide Spalten */
 }
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .container {
@@ -237,12 +242,14 @@ button:hover {
     font-size: 1rem;
   }
 
-  th, td {
+  th,
+  td {
     padding: 0.75rem;
   }
 
   .grid-form {
-    grid-template-columns: 1fr; /* Eine Spalte bei mittleren Bildschirmen */
+    grid-template-columns: 1fr;
+    /* Eine Spalte bei mittleren Bildschirmen */
   }
 }
 
@@ -265,7 +272,8 @@ button:hover {
     font-size: 0.8rem;
   }
 
-  th, td {
+  th,
+  td {
     padding: 0.4rem;
   }
 
@@ -280,79 +288,114 @@ button:hover {
 
   .dialog {
     padding: 1rem;
-    max-width: 100%; /* Dialog nimmt die gesamte Breite ein */
+    max-width: 100%;
+    /* Dialog nimmt die gesamte Breite ein */
   }
 }
+
 @media (max-width: 768px) {
   table {
-    display: block; /* Tabelle wird in ein Block-Layout umgewandelt */
-    width: 100%; /* Tabelle nimmt die volle Breite ein */
+    display: block;
+    /* Tabelle wird in ein Block-Layout umgewandelt */
+    width: 100%;
+    /* Tabelle nimmt die volle Breite ein */
   }
 
   thead {
-    display: none; /* Tabellenkopf ausblenden */
+    display: none;
+    /* Tabellenkopf ausblenden */
   }
+
   tbody {
-    display: block; /* Tabellenbody wird in ein Block-Layout umgewandelt */
-    width: 100%; /* Tabellenbody nimmt die volle Breite ein */
+    display: block;
+    /* Tabellenbody wird in ein Block-Layout umgewandelt */
+    width: 100%;
+    /* Tabellenbody nimmt die volle Breite ein */
   }
 
   tr {
-    display: block; /* Jede Zeile wird zu einem Block */
-    margin: 0; /* Entfernt zusätzlichen Außenabstand */
-    margin-bottom: 1rem; /* Abstand zwischen den Karten */
-    width: 100%; /* Zeilen nehmen die volle Breite ein */
-    box-sizing: border-box; /* Innenabstand wird in die Breite einbezogen */
-    background-color: var(--background-color); /* Hintergrundfarbe für die Karten */
-    border: 1px solid var(--border-color); /* Rahmen um die Karten */
-    border-radius: 0.375rem; /* Abgerundete Ecken */
-    padding: 0.5rem; /* Innenabstand */
+    display: block;
+    /* Jede Zeile wird zu einem Block */
+    margin: 0;
+    /* Entfernt zusätzlichen Außenabstand */
+    margin-bottom: 1rem;
+    /* Abstand zwischen den Karten */
+    width: 100%;
+    /* Zeilen nehmen die volle Breite ein */
+    box-sizing: border-box;
+    /* Innenabstand wird in die Breite einbezogen */
+    background-color: var(--background-color);
+    /* Hintergrundfarbe für die Karten */
+    border: 1px solid var(--border-color);
+    /* Rahmen um die Karten */
+    border-radius: 0.375rem;
+    /* Abgerundete Ecken */
+    padding: 0.5rem;
+    /* Innenabstand */
   }
 
   td {
     display: flex;
-    justify-content: column; /* Inhalt wird gleichmäßig verteilt */
-    align-items: center; /* Vertikale Ausrichtung */
+    justify-content: column;
+    /* Inhalt wird gleichmäßig verteilt */
+    align-items: center;
+    /* Vertikale Ausrichtung */
     padding: 0.5rem;
-    border-bottom: 1px solid var(--border-color); /* Trennlinie zwischen den Feldern */
-    width: 100%; /* Zellen nehmen die volle Breite ein */
-    box-sizing: border-box; /* Innenabstand wird in die Breite einbezogen */
+    border-bottom: 1px solid var(--border-color);
+    /* Trennlinie zwischen den Feldern */
+    width: 100%;
+    /* Zellen nehmen die volle Breite ein */
+    box-sizing: border-box;
+    /* Innenabstand wird in die Breite einbezogen */
   }
 
   td:last-child {
-    border-bottom: none; /* Entfernt die Trennlinie beim letzten Feld */
+    border-bottom: none;
+    /* Entfernt die Trennlinie beim letzten Feld */
   }
 
   td::before {
-    content: attr(data-label); /* Zeigt die Spaltenüberschrift an */
+    content: attr(data-label);
+    /* Zeigt die Spaltenüberschrift an */
     font-weight: bold;
     margin-right: 1rem;
     color: var(--text-color);
-    flex-shrink: 0; /* Verhindert, dass die Spaltenüberschrift schrumpft */
-    width: auto; /* Passt sich dem Inhalt an */
-    min-width: 30%; /* Mindestbreite für die Spaltenüberschrift */
-    text-align: left; /* Text linksbündig */
+    flex-shrink: 0;
+    /* Verhindert, dass die Spaltenüberschrift schrumpft */
+    width: auto;
+    /* Passt sich dem Inhalt an */
+    min-width: 30%;
+    /* Mindestbreite für die Spaltenüberschrift */
+    text-align: left;
+    /* Text linksbündig */
   }
 
   td span {
-    flex-grow: 1; /* Der Inhalt nimmt den restlichen Platz ein */
-    text-align: left; /* Text linksbündig */
-    word-wrap: break-word; /* Längere Wörter umbrechen */
+    flex-grow: 1;
+    /* Der Inhalt nimmt den restlichen Platz ein */
+    text-align: left;
+    /* Text linksbündig */
+    word-wrap: break-word;
+    /* Längere Wörter umbrechen */
   }
 
   /* Entfernt unnötige Außenabstände des Containers */
   .table-container {
     padding: 0;
     margin: 0;
-    width: 100%; /* Container nimmt die volle Breite ein */
+    width: 100%;
+    /* Container nimmt die volle Breite ein */
   }
 
   /* Sicherstellen, dass die Karten den Container ausfüllen */
   .table-container tr {
-    width: 100%; /* Karten nehmen die volle Breite des Containers ein */
-    margin: 0 auto; /* Zentriert die Karten */
+    width: 100%;
+    /* Karten nehmen die volle Breite des Containers ein */
+    margin: 0 auto;
+    /* Zentriert die Karten */
   }
 }
+
 .info-box {
   background-color: var(--primary-color);
   border: 1px solid #ddd;
@@ -361,7 +404,23 @@ button:hover {
   font-size: 0.9rem;
   color: white;
   max-width: 400px;
-  text-align: center; /* Zentriere den Text */
-  margin: 0 auto; /* Zentriere die Box horizontal */
-  margin-bottom: 1rem; /* Abstand nach unten */
+  text-align: center;
+  /* Zentriere den Text */
+  margin: 0 auto;
+  /* Zentriere die Box horizontal */
+  margin-bottom: 1rem;
+  /* Abstand nach unten */
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.checkbox-group input[type='checkbox'] {
+  margin-right: 0.5rem;
+}
+td[data-label="Wahlkreis"] div {
+  display: block; /* Stellt sicher, dass jedes Wahlkreis-Element untereinander steht */
 }

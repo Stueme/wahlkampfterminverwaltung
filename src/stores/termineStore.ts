@@ -106,9 +106,11 @@ export const useTermineStore = defineStore('termine', {
             }
           }
     
-          // Sekundäre Sortierung nach Wahlkreis
-          const wahlkreisDiff = a.wahlkreis.localeCompare(b.wahlkreis);
-          return sortAsc ? wahlkreisDiff : -wahlkreisDiff;
+      // Sekundäre Sortierung nach Wahlkreis
+      const wahlkreisA = Array.isArray(a.wahlkreis) ? a.wahlkreis.join(', ') : a.wahlkreis;
+      const wahlkreisB = Array.isArray(b.wahlkreis) ? b.wahlkreis.join(', ') : b.wahlkreis;
+      const wahlkreisDiff = String(wahlkreisA).localeCompare(String(wahlkreisB));
+      return sortAsc ? wahlkreisDiff : -wahlkreisDiff;
         });
     }
   },
@@ -142,7 +144,16 @@ export const useTermineStore = defineStore('termine', {
         // Überprüfe, ob der Response ein Blob enthält
         const blob = response.result.fileBlob
           const text = await blob.text(); // Konvertiere den Blob in Text
-          this.termine = JSON.parse(text); // Parse den Text in ein JSON-Objekt
+          const geladeneTermine = JSON.parse(text); // Parse den Text in ein JSON-Objekt
+                  // Normalisierung: Konvertiere wahlkreis in ein Array, falls es ein String ist
+
+    // Normalisierung: Konvertiere wahlkreis in ein Array, falls es ein String ist
+    this.termine = geladeneTermine.map((termin: Termin) => {
+      return {
+        ...termin, // Übernehme alle anderen Attribute
+        wahlkreis: typeof termin.wahlkreis === 'string' ? [termin.wahlkreis] : termin.wahlkreis,
+      };
+    });
           console.log('Termine erfolgreich aus Dropbox geladen:', this.termine);
 
       } catch (error) {

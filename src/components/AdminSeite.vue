@@ -38,7 +38,7 @@ export default defineComponent({
       uhrzeit: '',
       bezeichnung: '',
       ort: '',
-      wahlkreis: Wahlkreis.W0,
+      wahlkreis: [Wahlkreis.W0],
       nuudelLink: '',
     });
 
@@ -58,7 +58,7 @@ export default defineComponent({
           uhrzeit: '',
           bezeichnung: '',
           ort: '',
-          wahlkreis: Wahlkreis.W0,
+          wahlkreis: [Wahlkreis.W0], // Standardwahlkreis
           nuudelLink: '',
         };
       }
@@ -220,14 +220,12 @@ export default defineComponent({
               <label for="uhrzeit" class="block text-sm font-medium mb-1">Uhrzeit*:</label>
               <input v-model="neuerTermin.uhrzeit" type="time" id="uhrzeit" class="filter-input" />
             </div>
-
             <div class="form-group">
-              <label for="wahlkreis" class="block text-sm font-medium mb-1">Wahlkreis*:</label>
-              <select v-model="neuerTermin.wahlkreis" id="wahlkreis" class="filter-input">
-                <option v-for="(value, key) in Wahlkreis" :key="key" :value="value">
-                  {{ value }}
-                </option>
-              </select>
+              <label>Wahlkreise:</label>
+              <div v-for="(value, key) in Wahlkreis" :key="key" class="checkbox-group">
+                <input type="checkbox" :id="`wahlkreis-${key}`" :value="value" v-model="neuerTermin.wahlkreis" />
+                <label :for="`wahlkreis-${key}`">{{ value }}</label>
+              </div>
             </div>
             <div class="form-group">
               <label for="ort" class="block text-sm font-medium mb-1">Ort*:</label>
@@ -279,7 +277,14 @@ export default defineComponent({
           <tr v-for="termin in gefilterteUndSortierteTermine" :key="termin.id">
 
             <td data-label="Datum">{{ formatDatum(termin) }}</td>
-            <td data-label="Wahlkreis">{{ termin.wahlkreis }}</td>
+            <td data-label="Wahlkreis">
+            <template v-if="Array.isArray(termin.wahlkreis)">
+              {{ termin.wahlkreis.join(' ') }}
+            </template>
+            <template v-else>
+              {{ termin.wahlkreis }}
+            </template>
+          </td>
             <td data-label="Beschreibung">{{ termin.bezeichnung }}</td>
             <td data-label="Ort">{{ termin.ort }}</td>
             <td data-label="Teilnahme-Umfrage">
