@@ -12,6 +12,7 @@ export default defineComponent({
   setup() {
 
     const termineStore = useTermineStore();
+    const fehler = ref(termineStore.errorMessage); // Fehlernachricht aus dem Store
     const router = useRouter(); // Router-Instanz verwenden
 
 
@@ -181,6 +182,7 @@ export default defineComponent({
 
 
     return {
+      fehler,
       termine,
       confirmDelete,
       cancelDelete,
@@ -212,6 +214,9 @@ export default defineComponent({
 </script>
 
 <template>
+  <div v-if="fehler" class="error-message">
+  {{ fehler }}
+</div>
   <div class="container">
     <!-- Passwortabfrage -->
     <div v-if="!isAuthenticated" class="password-container">

@@ -4,7 +4,7 @@ import { Dropbox } from 'dropbox'; // Dropbox SDK importieren
 let DROPBOX_ACCESS_TOKEN = 'sl.u.AF3cMvPGySqBtsL4tNsrBP3KcAW3P_Zseo6NT0Up_g2OqoeYKJHudeeNm83d7LvbgMxbpWxDgooGwQA5iJcjjuRgOZQbQdU8fcJPaYruiWfyYaLKCIdoNWl6898e7E9G_SjTy9ZaPk3GYA2aqBXfys7GeF6ueTqV5n-14bKDDYJEmRHcs13VGYhvg6JiWMf9sQTIWuwB7-cSaQ4V9i_22kwB5gtrmNkuI2bYDL_FFfcQ91ecnk8gUfSUyMz6b4kIj3Z0GZcCzUt2Cx1EIKMF6zw6mhr3D4DhfcJlas4i973uajyXm-Mu3qWfzfwX5CAX5DLMeUFS8saJjMRL6Mg2YjPIJ3NdhayG1o5IebcRE6w6QZDEEWz16kls4d1YHEUf0F9qnmp0z6mVt5qXIh8JTF8teMOIB0_9IJmO7UJV2qCt_NAbioIGaARt0cdo9l-fE17JlsFJzsD2R-SqrtV5o6pLxqHl76_lt-Jlewq4vJaWjXaXmI6WbBa7K5QO2cBnCtqP7fS20hKwF_BpJQBapxIRLV2ohKGnl10ohuouhfNLIbUdnrvQBX86oODaGPh2zVLavyS5sv-7RMUPEyF3ZZMM4p2Sr2Q1yIfv8E_glCCbsi0ebOEVFoVgmtGCtYspVYF8DdeCk8tP3QmEDWHrB8QLuJB5fUIfYOiejsqsjH9XVuJ5PX6wacE6yXiAqF8DxOdg9ft_M0n6xLvIuMRTgayIV4yumM28eaKsUsHu-w-tk5MuRiuMnefPiV2lGzoMjlMcepxZgIvN30j4xd93WUGuZu_WC_kifss9LGSUuu8uXVKDTfrV0VHXaFkpRU8xUgzv0-TpMaCcNR6T2du9GiBHuEiQDKfDagpgcXgLuExnMmxjdUjkq_BR7OIrndpeEfvfFRJ3CKvDKumKMDVkZBj-L4GMuKfHAtrwAVeFzMslyJPkhQ5dO1RNZVc1LqfugKe069ST9pjpIdydGzZzoe2DCNkNjSZTk43l0w0zlPygRWQ5EeygLI0SAvZkLkg0pCWhtGZ8e0LttMSNON1A0okMIGpRMCWwJVw7ru8dyvNVWxIavDXULqIsKmLig_zkqXWd1PUxZuOaW6HWPLYeA1JPWqQGW7bYbBwA9GmOC22ew7_50P7ZJVQzxCJpPTCcAAEtCSuuw6dYKWkbx0sw06kORhm3vFhaHQ2m8x0q8MJ1mISn0OLrJBm-beI99QjAaWbkt0r0hklaby4Neeztwq0TXvk8HcDe1quhQttgL3-kXVUZgZ5myuc5w8gI8oiE_MLZDNY-6GG0lcecH-pLFA1LBMF3rxjLZIj__NdHCSc1A9o2kweVfwq_TsV28GcX9ZGXbLwFkhKd19k5-R_t7k_4uI0fK1tiX5Zz3mn79tzAbvp6BIZstYbAA_4BNoJBmGNVZmQYhDN82iu5p8b2VqhTUavrtmU_N5ovwglPj8SPi_k6AqopVN0bC7uvija14dI';
 const DROPBOX_REFRESH_TOKEN = 'uI9Wd63zMqYAAAAAAAAAAXbfBtz27OaQMh9_EpCFl7Dzza-jb_DLnDY_hAtKaRmC'; // Ersetze durch deinen Dropbox-Access-Token
 
-const DROPBOX_FILE_PATH = '/termine.json'; // Pfad zur Datei in Dropbox
+const DROPBOX_FILE_PATH = '/termine_neu.json'; // Pfad zur Datei in Dropbox
 
 async function createDropboxInstance() {
   await ensureAccessToken(); // Stelle sicher, dass das Access Token gültig ist
@@ -49,10 +49,14 @@ async function refreshAccessToken() {
   return data.access_token;
 }
 
-  
+
 export const useTermineStore = defineStore('termine', {
   state: () => ({
     termine: JSON.parse(localStorage.getItem('termine') || '[]') as Termin[],
+    dropboxRev: '', // Speichert die aktuelle Version der Datei
+    errorMessage: '', // Speichert die Fehlermeldung
+
+
   }),
   getters: {
     getTermine: (state) => {
@@ -63,35 +67,35 @@ export const useTermineStore = defineStore('termine', {
         return terminDatum >= today; // Nur Termine ab dem heutigen Datum
       });
     },
-    
+
     getFilteredAndSortedTermine: (state) => (filterText: string, sortKey: keyof Termin, sortAsc: boolean) => {
       const now = new Date(); // Aktuelles Datum und Uhrzeit
       const todayStart = new Date(now);
       todayStart.setHours(0, 0, 0, 0); // Beginn des aktuellen Tages
-    
+
       return state.termine
         .filter((t) => {
           const terminDatum = new Date(t.datum);
-    
+
           // Filtere Termine, die vor dem Beginn des aktuellen Tages liegen
           if (terminDatum < todayStart) {
             return false;
           }
-    
+
           // Filtere nach Bezeichnung (case-insensitive)
           return t.bezeichnung.toLowerCase().includes(filterText.toLowerCase());
         })
         .sort((a, b) => {
           let valA = a[sortKey];
           let valB = b[sortKey];
-    
+
           // Primäre Sortierung
           if (sortKey === 'datum') {
             const dateDiff = new Date(valA || '').getTime() - new Date(valB || '').getTime();
             if (dateDiff !== 0) {
               return sortAsc ? dateDiff : -dateDiff;
             }
-    
+
             // Innerhalb des gleichen Datums nach Uhrzeit sortieren
             const timeA = new Date(valA || '').getHours() * 60 + new Date(valA || '').getMinutes();
             const timeB = new Date(valB || '').getHours() * 60 + new Date(valB || '').getMinutes();
@@ -105,12 +109,12 @@ export const useTermineStore = defineStore('termine', {
               return sortAsc ? primaryDiff : -primaryDiff;
             }
           }
-    
-      // Sekundäre Sortierung nach Wahlkreis
-      const wahlkreisA = Array.isArray(a.wahlkreis) ? a.wahlkreis.join(', ') : a.wahlkreis;
-      const wahlkreisB = Array.isArray(b.wahlkreis) ? b.wahlkreis.join(', ') : b.wahlkreis;
-      const wahlkreisDiff = String(wahlkreisA).localeCompare(String(wahlkreisB));
-      return sortAsc ? wahlkreisDiff : -wahlkreisDiff;
+
+          // Sekundäre Sortierung nach Wahlkreis
+          const wahlkreisA = Array.isArray(a.wahlkreis) ? a.wahlkreis.join(', ') : a.wahlkreis;
+          const wahlkreisB = Array.isArray(b.wahlkreis) ? b.wahlkreis.join(', ') : b.wahlkreis;
+          const wahlkreisDiff = String(wahlkreisA).localeCompare(String(wahlkreisB));
+          return sortAsc ? wahlkreisDiff : -wahlkreisDiff;
         });
     }
   },
@@ -126,6 +130,13 @@ export const useTermineStore = defineStore('termine', {
 
       const dbx = await createDropboxInstance(); // Verwende die zentrale Funktion
       try {
+        // Hole die aktuelle Datei-Metadaten, um die `rev` zu überprüfen
+        const metadata = await dbx.filesGetMetadata({ path: DROPBOX_FILE_PATH });
+
+        if (metadata.result.rev !== this.dropboxRev) {
+          this.errorMessage = 'Es gab zwischenzeitlich Änderungen. Bitte refreshe einml die Seite und gebe die Änderung erneut ein. Sorry! Aber ich wollte kein vernünftiges Backend bauen';
+          return; 
+        }
         const response = await dbx.filesUpload({
           path: DROPBOX_FILE_PATH,
           mode: { '.tag': 'overwrite' }, // Überschreibt die Datei, falls sie existiert
@@ -140,21 +151,23 @@ export const useTermineStore = defineStore('termine', {
       const dbx = await createDropboxInstance(); // Verwende die zentrale Funktion
       try {
         const response = await dbx.filesDownload({ path: DROPBOX_FILE_PATH });
-    
+
         // Überprüfe, ob der Response ein Blob enthält
         const blob = response.result.fileBlob
-          const text = await blob.text(); // Konvertiere den Blob in Text
-          const geladeneTermine = JSON.parse(text); // Parse den Text in ein JSON-Objekt
-                  // Normalisierung: Konvertiere wahlkreis in ein Array, falls es ein String ist
+        const text = await blob.text(); // Konvertiere den Blob in Text
+        const geladeneTermine = JSON.parse(text); // Parse den Text in ein JSON-Objekt
+        // Normalisierung: Konvertiere wahlkreis in ein Array, falls es ein String ist
 
-    // Normalisierung: Konvertiere wahlkreis in ein Array, falls es ein String ist
-    this.termine = geladeneTermine.map((termin: Termin) => {
-      return {
-        ...termin, // Übernehme alle anderen Attribute
-        wahlkreis: typeof termin.wahlkreis === 'string' ? [termin.wahlkreis] : termin.wahlkreis,
-      };
-    });
-          console.log('Termine erfolgreich aus Dropbox geladen:', this.termine);
+        // Normalisierung: Konvertiere wahlkreis in ein Array, falls es ein String ist
+        this.termine = geladeneTermine.map((termin: Termin) => {
+          return {
+            ...termin, // Übernehme alle anderen Attribute
+            wahlkreis: typeof termin.wahlkreis === 'string' ? [termin.wahlkreis] : termin.wahlkreis,
+          };
+        });
+        this.dropboxRev = response.result.rev;
+
+        console.log('Termine erfolgreich aus Dropbox geladen:', this.termine + ' mit Revision: ' + this.dropboxRev);
 
       } catch (error) {
         console.error('Fehler beim Laden der Termine aus Dropbox:', error);
@@ -162,7 +175,7 @@ export const useTermineStore = defineStore('termine', {
     },
     loadInitialTermine() {
       if (this.termine.length === 0) {
-      this.loadTermineFromDropbox();
+        this.loadTermineFromDropbox();
       }
     },
   },
