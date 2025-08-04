@@ -257,6 +257,11 @@ export default defineComponent({
               <label for="bezeichnung" class="block text-sm font-medium mb-1">Beschreibung*:</label>
               <textarea v-model="neuerTermin.bezeichnung" id="bezeichnung" class="filter-input" rows="4"></textarea>
             </div>
+            <div class="form-group">
+              <label for="ansprechpartner">Ansprechpartner*in:</label>
+              <input id="ansprechpartner" type="text" v-model="neuerTermin.ansprechpartner" class="form-control"
+                placeholder="Ansprechpartner eingeben" />
+            </div>
 
             <div class="form-group full-width">
               <label for="nuudelLink" class="block text-sm font-medium mb-1">Nuudel-Link:</label>
@@ -291,6 +296,10 @@ export default defineComponent({
               Ort
               <span class="sort-indicator">{{ sortKey === 'ort' ? (sortAsc ? '▲' : '▼') : '' }}</span>
             </th>
+            <th @click="sortBy('ansprechpartner')">
+              Ansprechpartner*in
+              <span class="sort-indicator">{{ sortKey === 'ansprechpartner' ? (sortAsc ? '▲' : '▼') : '' }}</span>
+            </th>
             <th>Teilnahme-Umfrage</th>
             <th></th>
           </tr>
@@ -300,17 +309,21 @@ export default defineComponent({
 
             <td data-label="Datum">{{ formatDatum(termin) }}</td>
             <td data-label="Wahlkreis">
-            <template v-if="Array.isArray(termin.wahlkreis)">
-              <span v-for="(wahlkreis, index) in termin.wahlkreis" :key="index">
-                {{ wahlkreis }}<br />
-              </span>
-            </template>
-            <template v-else>
-              {{ termin.wahlkreis }}
-            </template>
-          </td>
+              <template v-if="Array.isArray(termin.wahlkreis)">
+                <span v-for="(wahlkreis, index) in termin.wahlkreis" :key="index">
+                  {{ wahlkreis }}<br />
+                </span>
+              </template>
+              <template v-else>
+                {{ termin.wahlkreis }}
+              </template>
+            </td>
             <td data-label="Beschreibung">{{ termin.bezeichnung }}</td>
             <td data-label="Ort">{{ termin.ort }}</td>
+            <td data-label="Ansprechpartner*in">
+              <span v-if="termin.ansprechpartner">{{ termin.ansprechpartner }}</span>
+              <span v-else>-</span>
+            </td>
             <td data-label="Teilnahme-Umfrage">
               <a v-if="termin.nuudelLink" :href="termin.nuudelLink" target="_blank"
                 class="text-blue-500 hover:underline">

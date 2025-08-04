@@ -6,6 +6,9 @@ export interface Termin {
   ort: string;
   wahlkreis: string | string[]; // Unterstützt sowohl Strings als auch Arrays
   nuudelLink?: string;
+  ansprechpartner?: string; // Optionaler Ansprechpartner
+
+  
 }
   
   export enum Wahlkreis {

@@ -424,3 +424,7 @@ button:hover {
 td[data-label="Wahlkreis"] div {
   display: block; /* Stellt sicher, dass jedes Wahlkreis-Element untereinander steht */
 }
+td[data-label="Ansprechpartner*in"] {
+  word-break: break-word; /* Lange Wörter umbrechen */
+  white-space: normal; /* Zeilenumbruch erlauben */
+}

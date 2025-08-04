@@ -101,6 +101,10 @@ export default defineComponent({
             Ort
             <span class="sort-indicator">{{ sortKey === 'ort' ? (sortAsc ? '▲' : '▼') : '' }}</span>
           </th>
+          <th @click="sortBy('ansprechpartner')">
+            Ansprechpartner*in
+            <span class="sort-indicator">{{ sortKey === 'ansprechpartner' ? (sortAsc ? '▲' : '▼') : '' }}</span>
+          </th>
           <th>Teilnahmeumfrage</th>
         </tr>
       </thead>
@@ -119,6 +123,10 @@ export default defineComponent({
           </td>
           <td data-label="Beschreibung">{{ termin.bezeichnung }}</td>
           <td data-label="Ort">{{ termin.ort }}</td>
+          <td data-label="Ansprechpartner*in">
+            <span v-if="termin.ansprechpartner">{{ termin.ansprechpartner }}</span>
+            <span v-else>-</span>
+          </td>
           <td data-label="Teilnahmeumfrage">
             <a v-if="termin.nuudelLink" :href="termin.nuudelLink" target="_blank" class="text-blue-500 hover:underline">
               nuddel
