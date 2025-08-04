@@ -42,11 +42,18 @@ export default defineComponent({
       nuudelLink: '',
     });
 
-    function openDialog(termin?: Termin) {
+    function openDialog(termin?: Termin, isCopying: boolean = false) {
       if (termin) {
-        // Bearbeiten-Modus
-        isEditing.value = true;
-        editTerminId.value = termin.id;
+        if (!isCopying) {
+          // Bearbeiten-Modus
+          isEditing.value = true;
+          editTerminId.value = termin.id;
+        } else {
+          // Wenn kopiert wird, dann ist es der Hinzufügen-Modus
+          isEditing.value = false;
+          editTerminId.value = null;
+        }
+
         neuerTermin.value = { ...termin }; // Termin-Daten in den Dialog laden
       } else {
         // Hinzufügen-Modus
@@ -157,6 +164,20 @@ export default defineComponent({
       }
       cancelDelete(); // Dialog schließen
     }
+    function copyTermin(termin: Termin) {
+      // Erstelle eine Kopie des Termins mit einer neuen ID
+      neuerTermin.value = {
+        ...termin,
+        id: Date.now(), // Verwende einen Zeitstempel als neue ID
+      };
+      // Setze den Dialog in den Hinzufügen-Modus
+      isEditing.value = false; // Kein Bearbeiten, sondern Hinzufügen
+      editTerminId.value = null; // Keine bestehende ID
+
+
+      // Öffne den Dialog mit dem kopierten Termin
+      openDialog(neuerTermin.value, true);
+    }
 
 
     return {
@@ -182,7 +203,8 @@ export default defineComponent({
       abbrechen,
       openDialog,
       navigateToExport,
-      navigateToUebersicht
+      navigateToUebersicht,
+      copyTermin,
     };
   },
 
@@ -278,13 +300,13 @@ export default defineComponent({
 
             <td data-label="Datum">{{ formatDatum(termin) }}</td>
             <td data-label="Wahlkreis">
-            <template v-if="Array.isArray(termin.wahlkreis)">
-              {{ termin.wahlkreis.join(' ') }}
-            </template>
-            <template v-else>
-              {{ termin.wahlkreis }}
-            </template>
-          </td>
+              <template v-if="Array.isArray(termin.wahlkreis)">
+                {{ termin.wahlkreis.join(' ') }}
+              </template>
+              <template v-else>
+                {{ termin.wahlkreis }}
+              </template>
+            </td>
             <td data-label="Beschreibung">{{ termin.bezeichnung }}</td>
             <td data-label="Ort">{{ termin.ort }}</td>
             <td data-label="Teilnahme-Umfrage">
@@ -296,7 +318,7 @@ export default defineComponent({
             </td>
             <td>
               <button @click="openDialog(termin)" class="btn-primary mr-2">Bearbeiten</button>
-
+              <button @click="copyTermin(termin)" class="btn-secondary">Kopieren</button>
               <button @click="openDeleteDialog(termin.id)" class="btn-danger">Löschen</button>
             </td>
           </tr>
