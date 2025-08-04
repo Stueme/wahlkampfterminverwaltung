@@ -109,7 +109,9 @@ export default defineComponent({
           <td data-label="Datum">{{ formatDatum(termin) }}</td>
           <td data-label="Wahlkreis">
             <template v-if="Array.isArray(termin.wahlkreis)">
-              {{ termin.wahlkreis.join(' ') }}
+              <span v-for="(wahlkreis, index) in [...termin.wahlkreis].sort()" :key="index">
+                {{ wahlkreis }}<br />
+              </span>
             </template>
             <template v-else>
               {{ termin.wahlkreis }}

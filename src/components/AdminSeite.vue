@@ -300,13 +300,15 @@ export default defineComponent({
 
             <td data-label="Datum">{{ formatDatum(termin) }}</td>
             <td data-label="Wahlkreis">
-              <template v-if="Array.isArray(termin.wahlkreis)">
-                {{ termin.wahlkreis.join(' ') }}
-              </template>
-              <template v-else>
-                {{ termin.wahlkreis }}
-              </template>
-            </td>
+            <template v-if="Array.isArray(termin.wahlkreis)">
+              <span v-for="(wahlkreis, index) in termin.wahlkreis" :key="index">
+                {{ wahlkreis }}<br />
+              </span>
+            </template>
+            <template v-else>
+              {{ termin.wahlkreis }}
+            </template>
+          </td>
             <td data-label="Beschreibung">{{ termin.bezeichnung }}</td>
             <td data-label="Ort">{{ termin.ort }}</td>
             <td data-label="Teilnahme-Umfrage">
