@@ -142,6 +142,9 @@ export const useTermineStore = defineStore('termine', {
           mode: { '.tag': 'overwrite' }, // Überschreibt die Datei, falls sie existiert
           contents: JSON.stringify(this.termine),
         });
+        const metadataNeu = await dbx.filesGetMetadata({ path: DROPBOX_FILE_PATH });
+        this.dropboxRev = metadataNeu.result.rev; // Aktualisiere die Revision im Store
+
         console.log('Termine erfolgreich in Dropbox gespeichert:', response);
       } catch (error) {
         console.error('Fehler beim Speichern der Termine in Dropbox:', error);
