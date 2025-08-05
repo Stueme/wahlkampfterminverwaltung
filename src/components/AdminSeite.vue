@@ -345,16 +345,7 @@ export default defineComponent({
               </div>
             </td>
           </tr>
-          <!-- Mobilansicht: Buttons in einer separaten Zeile -->
-          <tr class="mobile-buttons">
-            <td colspan="6">
-              <div class="button-group">
-                <button class="btn-primary">Bearbeiten</button>
-                <button class="btn-secondary">Kopieren</button>
-                <button class="btn-danger">Löschen</button>
-              </div>
-            </td>
-          </tr>
+
         </tbody>
       </table>
       <div class="mt-4">

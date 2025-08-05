@@ -490,9 +490,6 @@ td[data-label="Ansprechpartner*in"] {
 
 /* Mobilansicht: Buttons über die gesamte Zeile */
 @media (max-width: 480px) {
-  .desktop-buttons {
-    display: none; /* Desktop-Buttons ausblenden */
-  }
 
   .mobile-buttons {
     display: table-row; /* Mobilansicht-Buttons anzeigen */
