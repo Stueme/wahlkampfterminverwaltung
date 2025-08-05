@@ -501,7 +501,6 @@ td[data-label="Ansprechpartner*in"] {
 
   .button-group {
     display: flex;
-    flex-direction: column; /* Buttons untereinander anordnen */
     gap: 0.5rem; /* Abstand zwischen den Buttons */
     width: 100%; /* Buttons nehmen die gesamte Breite ein */
   }
