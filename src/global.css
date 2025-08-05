@@ -436,3 +436,80 @@ td[data-label="Ansprechpartner*in"] {
   margin-bottom: 10px;
   border-radius: 5px;
 }
+@media (max-width: 768px) {
+  .dialog {
+    width: 100%;
+    max-width: 90%;
+    max-height: 90vh;
+  }
+}
+.dialog-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Halbtransparenter Hintergrund */
+  z-index: 1000;
+}
+
+.dialog {
+  background: white;
+  border-radius: 8px;
+  width: 90%; /* Breite des Dialogs */
+  max-width: 600px; /* Maximale Breite */
+  max-height: 80vh; /* Maximale Höhe */
+  overflow-y: auto; /* Scrollen aktivieren */
+}
+@media (max-width: 480px) {
+  button {
+    width: 100%; /* Button nimmt die gesamte Breite ein */
+    margin-bottom: 0.5rem; /* Abstand zwischen den Buttons */
+  }
+}
+
+
+.button-group button {
+  margin-bottom: 0.5rem; /* Abstand zwischen den Buttons */
+}
+
+.button-group button:last-child {
+  margin-bottom: 0; /* Entfernt den Abstand beim letzten Button */
+}
+/* Desktopansicht: Buttons in der letzten Spalte */
+.desktop-buttons {
+  display: table-cell; /* Standardanzeige für Tabellenzellen */
+}
+
+.mobile-buttons {
+  display: none; /* Mobilansicht-Buttons standardmäßig ausblenden */
+}
+
+/* Mobilansicht: Buttons über die gesamte Zeile */
+@media (max-width: 480px) {
+  .desktop-buttons {
+    display: none; /* Desktop-Buttons ausblenden */
+  }
+
+  .mobile-buttons {
+    display: table-row; /* Mobilansicht-Buttons anzeigen */
+  }
+
+  .mobile-buttons td {
+    text-align: center; /* Buttons zentrieren */
+  }
+
+  .button-group {
+    display: flex;
+    flex-direction: column; /* Buttons untereinander anordnen */
+    gap: 0.5rem; /* Abstand zwischen den Buttons */
+    width: 100%; /* Buttons nehmen die gesamte Breite ein */
+  }
+
+  .button-group button {
+    width: 100%; /* Jeder Button nimmt die gesamte Breite ein */
+  }
+}

@@ -215,8 +215,8 @@ export default defineComponent({
 
 <template>
   <div v-if="fehler" class="error-message">
-  {{ fehler }}
-</div>
+    {{ fehler }}
+  </div>
   <div class="container">
     <!-- Passwortabfrage -->
     <div v-if="!isAuthenticated" class="password-container">
@@ -336,10 +336,23 @@ export default defineComponent({
               </a>
               <span v-else>-</span>
             </td>
-            <td>
-              <button @click="openDialog(termin)" class="btn-primary mr-2">Bearbeiten</button>
-              <button @click="copyTermin(termin)" class="btn-secondary">Kopieren</button>
-              <button @click="openDeleteDialog(termin.id)" class="btn-danger">Löschen</button>
+            <!-- Desktopansicht: Buttons in der letzten Spalte -->
+            <td  class="desktop-buttons">
+              <div class="button-group">
+                <button class="btn-primary">Bearbeiten</button>
+                <button class="btn-secondary">Kopieren</button>
+                <button class="btn-danger">Löschen</button>
+              </div>
+            </td>
+          </tr>
+          <!-- Mobilansicht: Buttons in einer separaten Zeile -->
+          <tr class="mobile-buttons">
+            <td colspan="6">
+              <div class="button-group">
+                <button class="btn-primary">Bearbeiten</button>
+                <button class="btn-secondary">Kopieren</button>
+                <button class="btn-danger">Löschen</button>
+              </div>
             </td>
           </tr>
         </tbody>
