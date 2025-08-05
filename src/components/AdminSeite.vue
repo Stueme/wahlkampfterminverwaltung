@@ -339,9 +339,9 @@ export default defineComponent({
             <!-- Desktopansicht: Buttons in der letzten Spalte -->
             <td  class="desktop-buttons">
               <div class="button-group">
-                <button class="btn-primary">Bearbeiten</button>
-                <button class="btn-secondary">Kopieren</button>
-                <button class="btn-danger">Löschen</button>
+                <button @click="openDialog(termin)" class="btn-primary">Bearbeiten</button>
+                <button @click="copyTermin(termin)" class="btn-secondary">Kopieren</button>
+                <button @click="openDeleteDialog(termin.id)" class="btn-danger">Löschen</button>
               </div>
             </td>
           </tr>
