@@ -477,7 +477,7 @@ td[data-label="Ansprechpartner*in"] {
 }
 
 .button-group button:last-child {
-  margin-bottom: 0; /* Entfernt den Abstand beim letzten Button */
+  margin-bottom: 0.5rem; /* Entfernt den Abstand beim letzten Button */
 }
 /* Desktopansicht: Buttons in der letzten Spalte */
 .desktop-buttons {
