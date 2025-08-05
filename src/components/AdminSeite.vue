@@ -13,6 +13,7 @@ export default defineComponent({
 
     const termineStore = useTermineStore();
     const fehler = computed(() => termineStore.errorMessage); // Fehlernachricht aus dem Store    const router = useRouter(); // Router-Instanz verwenden
+    const router = useRouter(); // Router-Instanz verwenden
 
 
     const termine = ref(termineStore.getTermine);
