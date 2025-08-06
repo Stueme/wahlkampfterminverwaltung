@@ -110,7 +110,7 @@ export default defineComponent({
       }
     }
     function closeError() {
-      fehler.value = ''; // Fehlernachricht zurücksetzen
+      termineStore.errorMessage = ''; // Fehlernachricht im Store zurücksetzen
     }
 
 
@@ -339,7 +339,7 @@ export default defineComponent({
           </td>
           <td data-label="Teilnahme-Umfrage">
             <a v-if="termin.nuudelLink" :href="termin.nuudelLink" target="_blank" class="text-blue-500 hover:underline">
-              nuddel
+              nuudel
             </a>
             <span v-else>-</span>
           </td>

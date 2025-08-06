@@ -129,7 +129,7 @@ export default defineComponent({
           </td>
           <td data-label="Teilnahmeumfrage">
             <a v-if="termin.nuudelLink" :href="termin.nuudelLink" target="_blank" class="text-blue-500 hover:underline">
-              nuddel
+              nuudel
             </a>
             <span v-else>-</span>
           </td>

@@ -15,7 +15,7 @@ export interface Termin {
     W0 = 'übergreifend',
     W1 = 'Innenstadt 1 - Altstadt - Süd',
     W2 = 'Innenstadt 2 - Neustadt - Süd',
-    W3 = 'Innenstadt 3 - Zülicher Platz',
+    W3 = 'Innenstadt 3 - Zülpicher Platz',
     W4 = 'Innenstadt 4 - Belgisches Viertel',
     W5 = 'Innenstadt 5 - Agenesviertel',
     W6 = 'Innenstadt 6 - Deutz',
