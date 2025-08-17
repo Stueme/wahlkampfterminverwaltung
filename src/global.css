@@ -549,3 +549,7 @@ td[data-label="Ansprechpartner*in"] {
 .error-popup-content .btn-secondary:hover {
   background-color: #e5e5e5;
 }
+
+.highlighted {
+  border: 5px solid #db3987;
+}

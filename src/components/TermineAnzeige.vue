@@ -109,7 +109,7 @@ export default defineComponent({
         </tr>
       </thead>
       <tbody>
-        <tr v-for="termin in gefilterteUndSortierteTermine" :key="termin.id">
+        <tr v-for="termin in gefilterteUndSortierteTermine" :key="termin.id" :class="{ 'highlighted': termin.highlighted }">
           <td data-label="Datum">{{ formatDatum(termin) }}</td>
           <td data-label="Wahlkreis">
             <template v-if="Array.isArray(termin.wahlkreis)">

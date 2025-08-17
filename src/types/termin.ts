@@ -7,7 +7,7 @@ export interface Termin {
   wahlkreis: string | string[]; // Unterstützt sowohl Strings als auch Arrays
   nuudelLink?: string;
   ansprechpartner?: string; // Optionaler Ansprechpartner
-
+  highlighted?: boolean;
   
 }
   

@@ -220,156 +220,164 @@ export default defineComponent({
 <template>
   <div class="container">
 
-  <div v-if="fehler" class="error-popup">
-    <div class="error-popup-content">
-      <p>{{ fehler }}</p>
-      <button @click="closeError" class="btn-secondary">Schließen</button>
+    <div v-if="fehler" class="error-popup">
+      <div class="error-popup-content">
+        <p>{{ fehler }}</p>
+        <button @click="closeError" class="btn-secondary">Schließen</button>
+      </div>
     </div>
-  </div>
-  <!-- Passwortabfrage -->
-  <div v-if="!isAuthenticated" class="password-container">
-    <h1 class="text-2xl font-bold mb-4">Admin-Bereich</h1>
-    <p>Bitte gebe das Admin-Passwort ein. Wenn du das nicht kennst frage den Wahlkampfmanager, die Veedelspat*innen
-      oder den Vorstand, um Termine zu aktualiseren.:</p>
-    <input v-model="password" type="password" placeholder="Passwort eingeben" class="filter-input mb-4" />
-    <button @click="login" class="btn-primary">Anmelden</button>
-  </div>
+    <!-- Passwortabfrage -->
+    <div v-if="!isAuthenticated" class="password-container">
+      <h1 class="text-2xl font-bold mb-4">Admin-Bereich</h1>
+      <p>Bitte gebe das Admin-Passwort ein. Wenn du das nicht kennst frage den Wahlkampfmanager, die Veedelspat*innen
+        oder den Vorstand, um Termine zu aktualiseren.:</p>
+      <input v-model="password" type="password" placeholder="Passwort eingeben" class="filter-input mb-4" />
+      <button @click="login" class="btn-primary">Anmelden</button>
+    </div>
 
-  <!-- Admin-Seite -->
-  <div v-else>
-    <h1>Termine verwalten</h1>
+    <!-- Admin-Seite -->
+    <div v-else>
+      <h1>Termine verwalten</h1>
 
-    <!-- Button "Neuen Termin anlegen" -->
-    <button @click="openDialog()" class="btn-primary mb-4">Neuen Termin anlegen</button>
+      <!-- Button "Neuen Termin anlegen" -->
+      <button @click="openDialog()" class="btn-primary mb-4">Neuen Termin anlegen</button>
 
-    <!-- Dialog für neuen Termin -->
-    <div v-if="showDialog" class="dialog-overlay">
-      <div class="dialog">
-        <h2 class="text-xl font-bold mb-4">Neuen Termin anlegen</h2>
-        <form class="grid-form">
-          <div class="form-group">
-            <label for="datum" class="block text-sm font-medium mb-1">Datum*:</label>
-            <input v-model="neuerTermin.datum" type="date" id="datum" class="filter-input" />
-          </div>
-          <div class="form-group">
-            <label for="uhrzeit" class="block text-sm font-medium mb-1">Uhrzeit*:</label>
-            <input v-model="neuerTermin.uhrzeit" type="time" id="uhrzeit" class="filter-input" />
-          </div>
-          <div class="form-group">
-            <label>Wahlkreise:</label>
-            <div v-for="(value, key) in Wahlkreis" :key="key" class="checkbox-group">
-              <input type="checkbox" :id="`wahlkreis-${key}`" :value="value" v-model="neuerTermin.wahlkreis" />
-              <label :for="`wahlkreis-${key}`">{{ value }}</label>
+      <!-- Dialog für neuen Termin -->
+      <div v-if="showDialog" class="dialog-overlay">
+        <div class="dialog">
+          <h2 class="text-xl font-bold mb-4">Neuen Termin anlegen</h2>
+          <form class="grid-form">
+            <div class="form-group">
+              <label for="datum" class="block text-sm font-medium mb-1">Datum*:</label>
+              <input v-model="neuerTermin.datum" type="date" id="datum" class="filter-input" />
             </div>
-          </div>
-          <div class="form-group">
-            <label for="ort" class="block text-sm font-medium mb-1">Ort*:</label>
-            <input v-model="neuerTermin.ort" type="text" id="ort" class="filter-input" />
-          </div>
-          <div class="form-group full-width">
-            <label for="bezeichnung" class="block text-sm font-medium mb-1">Beschreibung*:</label>
-            <textarea v-model="neuerTermin.bezeichnung" id="bezeichnung" class="filter-input" rows="4"></textarea>
-          </div>
-          <div class="form-group">
-            <label for="ansprechpartner">Ansprechpartner*in:</label>
-            <input id="ansprechpartner" type="text" v-model="neuerTermin.ansprechpartner" class="form-control"
-              placeholder="Ansprechpartner eingeben" />
-          </div>
+            <div class="form-group">
+              <label for="uhrzeit" class="block text-sm font-medium mb-1">Uhrzeit*:</label>
+              <input v-model="neuerTermin.uhrzeit" type="time" id="uhrzeit" class="filter-input" />
+            </div>
+            <div class="form-group">
+              <label>Wahlkreise:</label>
+              <div v-for="(value, key) in Wahlkreis" :key="key" class="checkbox-group">
+                <input type="checkbox" :id="`wahlkreis-${key}`" :value="value" v-model="neuerTermin.wahlkreis" />
+                <label :for="`wahlkreis-${key}`">{{ value }}</label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="ort" class="block text-sm font-medium mb-1">Ort*:</label>
+              <input v-model="neuerTermin.ort" type="text" id="ort" class="filter-input" />
+            </div>
+            <div class="form-group full-width">
+              <label for="bezeichnung" class="block text-sm font-medium mb-1">Beschreibung*:</label>
+              <textarea v-model="neuerTermin.bezeichnung" id="bezeichnung" class="filter-input" rows="4"></textarea>
+            </div>
+            <div class="form-group full-width">
+              <label for="ansprechpartner"  class="block text-sm font-medium mb-1">Ansprechpartner*in:</label>
+              <input id="ansprechpartner" type="text" v-model="neuerTermin.ansprechpartner" class="filter-input"
+               />
+            </div>
 
-          <div class="form-group full-width">
-            <label for="nuudelLink" class="block text-sm font-medium mb-1">Nuudel-Link:</label>
-            <input v-model="neuerTermin.nuudelLink" type="url" id="nuudelLink" class="filter-input" />
+            <div class="form-group full-width">
+              <label for="nuudelLink" class="block text-sm font-medium mb-1">Nuudel-Link:</label>
+              <input v-model="neuerTermin.nuudelLink" type="url" id="nuudelLink" class="filter-input" />
+            </div>
+            <div class="form-group full-width">
+              <label>
+                <input type="checkbox" v-model="neuerTermin.highlighted" />
+                Termin hervorheben
+              </label>
+            </div>
+          </form>
+          <div class="flex justify-end  mt-4">
+            <button @click="abbrechen" class="btn-secondary mr-2">Abbrechen</button>
+            <button @click="speichern" class="btn-primary">OK</button>
           </div>
-        </form>
-        <div class="flex justify-end  mt-4">
-          <button @click="abbrechen" class="btn-secondary mr-2">Abbrechen</button>
-          <button @click="speichern" class="btn-primary">OK</button>
+        </div>
+      </div>
+
+
+      <table>
+        <thead>
+          <tr>
+
+            <th @click="sortBy('datum')">
+              Datum
+              <span class="sort-indicator">{{ sortKey === 'datum' ? (sortAsc ? '▲' : '▼') : '' }}</span>
+            </th>
+            <th @click="sortBy('wahlkreis')">
+              Wahlkreis
+              <span class="sort-indicator">{{ sortKey === 'wahlkreis' ? (sortAsc ? '▲' : '▼') : '' }}</span>
+            </th>
+            <th @click="sortBy('bezeichnung')">
+              Beschreibung
+              <span class="sort-indicator">{{ sortKey === 'bezeichnung' ? (sortAsc ? '▲' : '▼') : '' }}</span>
+            </th>
+            <th @click="sortBy('ort')">
+              Ort
+              <span class="sort-indicator">{{ sortKey === 'ort' ? (sortAsc ? '▲' : '▼') : '' }}</span>
+            </th>
+            <th @click="sortBy('ansprechpartner')">
+              Ansprechpartner*in
+              <span class="sort-indicator">{{ sortKey === 'ansprechpartner' ? (sortAsc ? '▲' : '▼') : '' }}</span>
+            </th>
+            <th>Teilnahme-Umfrage</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="termin in gefilterteUndSortierteTermine" :key="termin.id"
+            :class="{ 'highlighted': termin.highlighted }">
+
+            <td data-label="Datum">{{ formatDatum(termin) }}</td>
+            <td data-label="Wahlkreis">
+              <template v-if="Array.isArray(termin.wahlkreis)">
+                <span v-for="(wahlkreis, index) in termin.wahlkreis" :key="index">
+                  {{ wahlkreis }}<br />
+                </span>
+              </template>
+              <template v-else>
+                {{ termin.wahlkreis }}
+              </template>
+            </td>
+            <td data-label="Beschreibung">{{ termin.bezeichnung }}</td>
+            <td data-label="Ort">{{ termin.ort }}</td>
+            <td data-label="Ansprechpartner*in">
+              <span v-if="termin.ansprechpartner">{{ termin.ansprechpartner }}</span>
+              <span v-else>-</span>
+            </td>
+            <td data-label="Teilnahme-Umfrage">
+              <a v-if="termin.nuudelLink" :href="termin.nuudelLink" target="_blank"
+                class="text-blue-500 hover:underline">
+                nuudel
+              </a>
+              <span v-else>-</span>
+            </td>
+            <!-- Desktopansicht: Buttons in der letzten Spalte -->
+            <td class="desktop-buttons">
+              <div class="button-group">
+                <button @click="openDialog(termin)" class="btn-primary">Bearbeiten</button>
+                <button @click="copyTermin(termin)" class="btn-secondary">Kopieren</button>
+                <button @click="openDeleteDialog(termin.id)" class="btn-danger">Löschen</button>
+              </div>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+      <div class="mt-4">
+        <button @click="navigateToUebersicht" class="btn-primary">zur Übericht</button>
+        <button @click="navigateToExport" class="btn-secondary">JSON Export</button>
+
+      </div>
+    </div>
+    <div v-if="showDeleteDialog" class="dialog-overlay">
+      <div class="dialog">
+        <h2 class="text-xl font-bold mb-4">Termin löschen</h2>
+        <p>Möchtest du diesen Termin wirklich löschen?</p>
+        <div class="flex justify-end mt-4">
+          <button @click="cancelDelete" class="btn-secondary mr-2">Abbrechen</button>
+          <button @click="confirmDelete" class="btn-danger">OK</button>
         </div>
       </div>
     </div>
-
-
-    <table>
-      <thead>
-        <tr>
-
-          <th @click="sortBy('datum')">
-            Datum
-            <span class="sort-indicator">{{ sortKey === 'datum' ? (sortAsc ? '▲' : '▼') : '' }}</span>
-          </th>
-          <th @click="sortBy('wahlkreis')">
-            Wahlkreis
-            <span class="sort-indicator">{{ sortKey === 'wahlkreis' ? (sortAsc ? '▲' : '▼') : '' }}</span>
-          </th>
-          <th @click="sortBy('bezeichnung')">
-            Beschreibung
-            <span class="sort-indicator">{{ sortKey === 'bezeichnung' ? (sortAsc ? '▲' : '▼') : '' }}</span>
-          </th>
-          <th @click="sortBy('ort')">
-            Ort
-            <span class="sort-indicator">{{ sortKey === 'ort' ? (sortAsc ? '▲' : '▼') : '' }}</span>
-          </th>
-          <th @click="sortBy('ansprechpartner')">
-            Ansprechpartner*in
-            <span class="sort-indicator">{{ sortKey === 'ansprechpartner' ? (sortAsc ? '▲' : '▼') : '' }}</span>
-          </th>
-          <th>Teilnahme-Umfrage</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="termin in gefilterteUndSortierteTermine" :key="termin.id">
-
-          <td data-label="Datum">{{ formatDatum(termin) }}</td>
-          <td data-label="Wahlkreis">
-            <template v-if="Array.isArray(termin.wahlkreis)">
-              <span v-for="(wahlkreis, index) in termin.wahlkreis" :key="index">
-                {{ wahlkreis }}<br />
-              </span>
-            </template>
-            <template v-else>
-              {{ termin.wahlkreis }}
-            </template>
-          </td>
-          <td data-label="Beschreibung">{{ termin.bezeichnung }}</td>
-          <td data-label="Ort">{{ termin.ort }}</td>
-          <td data-label="Ansprechpartner*in">
-            <span v-if="termin.ansprechpartner">{{ termin.ansprechpartner }}</span>
-            <span v-else>-</span>
-          </td>
-          <td data-label="Teilnahme-Umfrage">
-            <a v-if="termin.nuudelLink" :href="termin.nuudelLink" target="_blank" class="text-blue-500 hover:underline">
-              nuudel
-            </a>
-            <span v-else>-</span>
-          </td>
-          <!-- Desktopansicht: Buttons in der letzten Spalte -->
-          <td class="desktop-buttons">
-            <div class="button-group">
-              <button @click="openDialog(termin)" class="btn-primary">Bearbeiten</button>
-              <button @click="copyTermin(termin)" class="btn-secondary">Kopieren</button>
-              <button @click="openDeleteDialog(termin.id)" class="btn-danger">Löschen</button>
-            </div>
-          </td>
-        </tr>
-
-      </tbody>
-    </table>
-    <div class="mt-4">
-      <button @click="navigateToUebersicht" class="btn-primary">zur Übericht</button>
-      <button @click="navigateToExport" class="btn-secondary">JSON Export</button>
-
-    </div>
   </div>
-  <div v-if="showDeleteDialog" class="dialog-overlay">
-    <div class="dialog">
-      <h2 class="text-xl font-bold mb-4">Termin löschen</h2>
-      <p>Möchtest du diesen Termin wirklich löschen?</p>
-      <div class="flex justify-end mt-4">
-        <button @click="cancelDelete" class="btn-secondary mr-2">Abbrechen</button>
-        <button @click="confirmDelete" class="btn-danger">OK</button>
-      </div>
-    </div>
-  </div>
-</div>
 </template>
